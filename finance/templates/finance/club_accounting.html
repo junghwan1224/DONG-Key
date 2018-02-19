@@ -1,0 +1,58 @@
+{% load money %}
+<div id="accounting">
+    <h3>{{ club.club_name }}</h3>
+    <form method="POST" id="acc_form">
+        {% csrf_token %}
+        {{ income_form.as_p }}
+        <button type="submit">입력</button>
+    </form>
+    <br />
+    <br />
+    <form method="POST" id="acc_form">
+        {% csrf_token %}
+        {{ expenditure_form.as_p }}
+        <button type="submit">입력</button>
+    </form>
+    <br />
+    <h4>총액: {{ club.accounting.account_sum|won }}</h4>
+    <h5>수입 영역</h5>
+    <ul>
+        {% for income in income_all %}
+        <li> {{ income.detail }}/ {{ income.amount|won }}/ {{ income.income_at|date:"Y.m.d" }}</li>
+        {% endfor %}
+    </ul>
+    <h5>지출 영역</h5>
+    <ul>
+        {% for expd in expd_all %}
+        <li> {{ expd.detail }}/ {{ expd.amount|won }}/ {{ expd.expd_at|date:"Y.m.d" }}</li>
+        {% endfor %}
+    </ul>
+</div>
+<script>
+$(function() {
+    $("#id_income-income_at").datepicker({
+        changeMonth: false,
+        dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+        monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+    });
+});
+</script>
+<script>
+$(function() {
+    $("#id_expd-expd_at").datepicker({
+        changeMonth: false,
+        numberOfMonths: [2,2],
+        dayNames: ['월요일', '화요일', '수요일', '목요일', '금요일', '토요일', '일요일'],
+        dayNamesMin: ['월', '화', '수', '목', '금', '토', '일'],
+        monthNamesShort: ['1','2','3','4','5','6','7','8','9','10','11','12'],
+        monthNames: ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월']
+    });
+});
+</script>
+<script>
+  $(document).ready(function() {
+    $('select').material_select();
+  });
+</script>
