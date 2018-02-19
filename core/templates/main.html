@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  {% if request.user.is_authenticated %}
+    {{ request.user.username }}
+    <form method='POST' action="{% url 'account:logout' %}">
+      {% csrf_token %}
+      <button type='submit'>logout</button>
+    </form>
+    <ul>
+      <li><a href="{% url 'account:update_profile' %}">edit profile</a></li>
+      <li><a href="{% url 'club:create_club' %}">entry club</a></li>
+      <li>my club as admin</li>
+
+        {% for club in admin_club_list %}
+        <ul>
+          <li><a href="{% url 'club:read_admin_club' club.club.name %}">{{ club.club.name }}</a></li>
+        </ul>
+        {% endfor %}
+
+      <li>my club as member</li>
+
+        {% for club in member_club_list %}
+        <ul>
+          <li><a href="{% url 'club:read_non_admin_club' club.club.name %}">{{ club.club.name }}</a></li>
+        </ul>
+        {% endfor %}
+
+    </ul>
+  {% else %}
+    no user
+    <a href="{% url 'account:login' %}">login</a>
+  {% endif %}
+
+  <form method='GET' enctype="multipart/form-data">
+    <input type='text' name='q' value='{{ q }}' placeholder="club search" />
+    <button type='submit'>Search</button>
+  </form>
+
+  {% for club in search_result %}
+  <ul>
+      <li><a href="">{{ club.name }}</a>&nbsp;&nbsp;&nbsp;
+
+      {% if club.is_member %}
+        <span>already</span>
+      {% else %}
+        <form method='POST' action="{% url 'club:apply_club' club.name %}">
+          {% csrf_token %}
+          <button type='submit'>apply</button>
+        </form>
+      {% endif %}
+
+      </li>
+  </ul>
+    {% empty %}
+      no search result
+  {% endfor %}
+</body>
+</html>

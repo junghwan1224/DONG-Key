@@ -1,0 +1,7 @@
+create club rule page
+
+<form method='POST'>
+  {% csrf_token %}
+  {{ club_rule_form.as_p }}
+  <button type='submit'>save</button>
+</form>
