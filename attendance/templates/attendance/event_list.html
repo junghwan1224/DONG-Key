@@ -1,0 +1,8 @@
+<h4>{{ club.name }}</h4>
+{% for event in event_list %}
+<a href="{% url 'attendance:read_event' event.pk %}">
+    <button>{{ event.title }}///[{{ event.event_at|date:"Y.m.d" }}]</button>
+</a>
+<br />
+<br />
+{% endfor %}

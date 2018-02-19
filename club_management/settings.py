@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'club',
     'member',
     'account',
+    'attendance',
+    'finance',
 ]
 
 MIDDLEWARE = [
@@ -105,7 +107,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LOGIN_REDIRECT_URL = 'member_info/'
+LOGIN_REDIRECT_URL = '/core/main'
+LOGIN_URL = '/account/login/'
 
 
 # Internationalization

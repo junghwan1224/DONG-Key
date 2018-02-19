@@ -1,0 +1,10 @@
+<form method="POST">
+    {% csrf_token %}
+    {{ event_form.as_p }}
+    <button type="submit" class="btn">만들기</button>
+</form>
+<script>
+$(document).ready(function() {
+    $('select').material_select();
+});
+</script>
