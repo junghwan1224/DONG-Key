@@ -1,0 +1,6 @@
+<h4>{{ event.title }}</h4>
+<p> {{ event.event_at }}</p>
+<h4>결석한 사람</h4>
+{% for absent_member in event.absent_member.all %}
+<p>{{ absent_member.member }}</p>
+{% endfor %}
