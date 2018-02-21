@@ -62,7 +62,7 @@ ROOT_URLCONF = 'club_management.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'club_management', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

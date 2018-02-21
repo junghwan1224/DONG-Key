@@ -1,5 +1,10 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
 <form method='POST' enctype="multipart/form-data">
   {% csrf_token %}
   {{ club_form.as_p }}
   <button type='submit'>entry</button>
 </form>
+{% endblock %}

@@ -1,7 +1,9 @@
-create club rule page
+{% extends 'admin_base.html' %}
 
+{% block admin_content %}
 <form method='POST'>
   {% csrf_token %}
   {{ club_rule_form.as_p }}
   <button type='submit'>save</button>
 </form>
+{% endblock %}
