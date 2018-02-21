@@ -6,16 +6,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>DONGKey::동아리 관리의 모든 것</title>
-    <!--static css files-->
-    <link href="{% static 'css/club.css' %}" rel="stylesheet" type="text/css" />
-    <!--materialize CDN-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <!--JS_jquery-ajax usage-->
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
+    <link href="{% static 'css/club.css' %}" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
-    <!--static js files-->
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="{% static 'js/ajax_settings.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
 </head>
 <body>
 <header>
@@ -35,7 +34,7 @@
                         </form>
                     </div>
                 </li>
-                <li><a href="/">내 프로필 보기</a></li>
+                <li><a href="{% url 'account:read_profile' %}">내 프로필 보기</a></li>
                 <li style="background-color:lightgray;">
                     <strong>내가 관리하는 동아리</strong>
                 </li>
@@ -43,8 +42,8 @@
                     <ul>
                         {% for member in request.user.member_set.all %}
                         <li class="clublist">
-                            {% if member.is_admin == False  %}
-                            <a href="{% url 'club:read_admin_club' member.club.pk  %}">{{ member.club.name }}</a>
+                            {% if member.is_admin == True  %}
+                            <a href="{% url 'club:read_admin_club' member.club  %}">{{ member.club.name }}</a>
                             {% endif %}
                         </li>
                         {% empty %}
@@ -59,8 +58,8 @@
                     <ul>
                         {% for member in request.user.member_set.all %}
                         <li class="clublist">
-                            {% if member.is_admin == True %}
-                            <a href="">{{ member.club.name }}</a>
+                            {% if member.is_admin == False %}
+                            <a href="{% url 'club:read_non_admin_club' member.club %}">{{ member.club.name }}</a>
                             {% endif %}
                         </li>
                         {% empty %}

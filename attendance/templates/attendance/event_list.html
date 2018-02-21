@@ -1,5 +1,6 @@
+{% extends 'admin_base.html' %}
 
-<h4>{{ club.name }}</h4>
+{% block admin_content %}
 {% for event in event_list %}
 <a href="{% url 'attendance:read_event' event.pk %}">
     <button>{{ event.title }}///[{{ event.event_at|date:"Y.m.d" }}]</button>
@@ -7,3 +8,5 @@
 <br />
 <br />
 {% endfor %}
+<a href="{% url 'attendance:create_event' club.pk %}" class="btn">이벤트 만들기(출결)</a>
+{% endblock %}
