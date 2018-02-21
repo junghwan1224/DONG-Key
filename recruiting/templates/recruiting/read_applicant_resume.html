@@ -46,7 +46,7 @@
     <div class="question_list">
         {% for question in resume.admin_resume.question_set.all %}
             {% if question.is_short_answer == False %}
-                <span>{{ question.conent }}</span>
+                <span>{{ question.content }}</span>
                 {% for answer in resume.longanswer_set.all %}
                     {% if answer.question == question %}
                     <span>{{ answer.content }}</span>
