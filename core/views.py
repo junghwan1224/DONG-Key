@@ -27,3 +27,6 @@ def search(request):
     else:
         club_result = None
         return (search_text, club_result)
+
+
+

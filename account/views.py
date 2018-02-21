@@ -7,11 +7,12 @@ from django.contrib.auth import (
         login as auth_login,
         logout as auth_logout,
     )
+from .models import Profile
 from .forms import (
         AuthForm,
         SignupForm,
+        ProfileForm,
     )
-from .forms import ProfileForm
 # Create your views here.
 
 
@@ -47,6 +48,12 @@ def signup(request):
         'form': form,
     }
     return render(request, 'account/signup.html', ctx)
+
+
+@login_required
+def read_profile(request):
+    profile = Profile.objects.get(user__pk=request.user.pk)
+    return render(request, 'account/read_profile.html', {'profile': profile, })
 
 
 @login_required

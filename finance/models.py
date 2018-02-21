@@ -1,12 +1,11 @@
 from django.db import models
 from django import forms
 from django.utils import timezone
-from club.models import Club
 
 
 class Accounting(models.Model):
     club = models.OneToOneField(
-        Club,
+        'club.Club',
         on_delete=models.CASCADE,
         )
 

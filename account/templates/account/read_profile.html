@@ -1,0 +1,7 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h4>{{ request.user.username }}의 프로필</h4>
+<p>학교 : {{ profile.school }}</p>
+<p>전화번호 : {{ profile.phone_number }}</p>
+{% endblock %}
