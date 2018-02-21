@@ -2,18 +2,20 @@
 
 {% block admin_content %}
 
+<h2><a href="{% url 'recruiting:read_applicant_resume' club.pk applicant_resume.pk %}">
+    {{ applicant_resume.admin_resume.title }}</a><br /></h2>
+
 <div class="collection">
-    {% for resume in resume_list %}
+    {% for applicant_resume in applicant_resume_list %}
     <div class="collection-item">
-        <h2><a href="{% url 'recruiting:read_applicant_resume' club.pk applicant_resume.pk %}">{{ resume.title }}</a><br /></h2>
-        <span>{{ resume.applicant }}</span>
-        <span>{{ resume.created_at }}에 작성</span>
+        <span>{{ applicant_resume.applicant }}</span>
+        <span>{{ applicant_resume.created_at }}에 작성</span>
     </div>
     {% empty %}
         <p class="collection-item">아직 접수된 지원서가 없습니다.</p>
     {% endfor %}
 </div>
 
-<a class="btn" href="{% url 'recruiting:read_admin_resume' club.pk %}">지원서 양식 수정하기</a>
+<a class="btn" href="{% url 'recruiting:read_admin_resume' club.pk resume.pk %}">지원서 양식 수정하기</a>
 
 {% endblock %}
