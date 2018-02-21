@@ -44,7 +44,7 @@
                         {% for member in request.user.member_set.all %}
                         <li class="clublist">
                             {% if member.is_admin == False  %}
-                            <a href="{% url 'club:read_admin_club' member.club.name  %}">{{ member.club.name }}</a>
+                            <a href="{% url 'club:read_admin_club' member.club.pk  %}">{{ member.club.name }}</a>
                             {% endif %}
                         </li>
                         {% empty %}
