@@ -10,5 +10,5 @@ class EventForm(forms.ModelForm):
 
     def __init__(self, club, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
-        self.fields['absent_member'].queryset = Member.objects.filter(club=club).values_list('user__username', flat=True)
-
+        members = Member.objects.filter(club=club)
+        self.fields['absent_member'].choices = [(str(i), members[i].user.username) for i in range(len(members))]
