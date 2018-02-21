@@ -23,10 +23,11 @@ def create_event(request, pk):
             event.club = club
             event.save()
             event_form.save_m2m()
-        return redirect(reverse('attendance:read_event', kwargs={'event_pk': event.pk, }))
+            return redirect(reverse('attendance:read_event', kwargs={'event_pk': event.pk, }))
     else:
         event_form = EventForm(club)
     ctx = {
+            'club': club,
             'event_form': event_form,
     }
     return render(request, 'attendance/create_event.html', ctx)
@@ -34,7 +35,9 @@ def create_event(request, pk):
 
 def read_event(request, event_pk):
     event = get_object_or_404(Event, pk=event_pk)
+    club = event.club
     ctx = {
+            'club': club,
             'event': event,
      }
     return render(request, 'attendance/read_event.html', ctx)

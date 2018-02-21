@@ -35,7 +35,7 @@
 {% for club in search_result %}
 <ul>
     <li>
-        <h3><a href="{% url 'club:non_admin_club' club.pk %}">{{ club.club_name }}</a></h3>
+        <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.club_name }}</a></h3>
         <p>{{ club.club_description }}</p>
     </li>
 </ul>

@@ -18,9 +18,9 @@ from .forms import ClubRuleForm
 def create_club(request):
     club_form = ClubForm(request.POST or None)
     if request.method == 'POST' and club_form.is_valid():
-        club_form.save()
+        club = club_form.save()
         member = Member.objects.create(
-                club=club_form.instance,
+                club=club,
                 user=request.user,
                 is_admin=True,
             )
