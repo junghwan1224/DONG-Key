@@ -42,12 +42,20 @@
     <li><a href="">{{ club.name }}</a>&nbsp;&nbsp;&nbsp;
 
     {% if club.is_member %}
-      <span>already</span>
+      <span>이미 가입이 완료된 동아리입니다 !</span>
+
     {% else %}
-      <form method='POST' action="{% url 'club:apply_club' club.name %}">
-        {% csrf_token %}
-        <button type='submit'>apply</button>
-      </form>
+
+      {% if club.is_applied %}
+        이미 신청 접수가 완료된 동아리입니다 !
+
+      {% else %}
+        <form method='POST' action="{% url 'club:apply_club' club.name %}">
+          {% csrf_token %}
+          <button type='submit'>apply</button>
+        </form>
+      {% endif %}
+
     {% endif %}
 
     </li>
