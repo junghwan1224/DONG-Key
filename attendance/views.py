@@ -5,6 +5,15 @@ from .models import Event
 from .forms import EventForm
 
 
+def event_list(request, pk):
+    club = get_object_or_404(Club, pk=pk)
+    ctx = {
+            'club': club,
+            'event_list': club.event_set.all(),
+    }
+    return render(request, 'attendance/event_list.html', ctx)
+
+
 def create_event(request, pk):
     club = get_object_or_404(Club, pk=pk)
     if request.method == "POST":
@@ -21,15 +30,6 @@ def create_event(request, pk):
             'event_form': event_form,
     }
     return render(request, 'attendance/create_event.html', ctx)
-
-
-def event_list(request, pk):
-    club = get_object_or_404(Club, pk=pk)
-    ctx = {
-            'club': club,
-            'event_list': club.event_set.all(),
-    }
-    return render(request, 'attendance/event_list.html', ctx)
 
 
 def read_event(request, event_pk):

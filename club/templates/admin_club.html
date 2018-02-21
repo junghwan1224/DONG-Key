@@ -1,6 +1,6 @@
-admin club page
+{% extends 'admin_base.html' %}
 
-
+{% block admin_content %}
 <div>
   {% if club %}
     {{ club.name }}
@@ -64,3 +64,4 @@ admin club page
   </div>
 
 </div>
+{% endblock %}

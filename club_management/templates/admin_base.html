@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div id="admin_base">
+        <div style="display: block; margin: 20px;">
+            <span style="padding:10px; background-color: orangered; font-size: 50px; color: white;">{{ club.name }}</span>
+            <span>{{ club.club_description }}</span>
+        </div>
+        <span style="background-color: orangered; font-color:white; margin: 20px; border-radius:100px; padding: 20px;">
+                <a href="{% url 'club:read_admin_club' club.name %}">동아리 홈 이동하기</a>
+        </span>
+        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+             <a href="#">회원명부 관리하기</a>
+        </span>
+        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+            <a href="{% url 'finance:club_accounting' club.pk %}">회계 관리</a>
+        </span>
+        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+            <a href="{% url 'recruiting:admin_resume_list' club.pk %}">리크루팅 관리</a>
+        </span>
+    </div>
+
+    {% block admin_content %}{% endblock %}
+{% endblock %}
