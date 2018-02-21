@@ -1,0 +1,59 @@
+{% extends 'non_admin_base.html' %}
+
+{% block non_admin_content %}
+
+{% if is_member %}
+<h3>이미 {{ club.club_name }}의 회원이시네요!</h3>
+<p>이미 회원이시라면 굳이 다시 지원하실 필요가 없습니다!</p>
+<a href="{% url 'club:non_admin_club' club.pk %}" class="btn">홈으로 돌아가기</a>
+{% else %}
+<form method="POST" class="resume-sample" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
+    {% csrf_token %}
+    <span id="resume-title" style="display: block; text-align: center; ">
+        <h1>{{ resume.title }}</h1>
+    </span>
+    <table>
+        <tr>
+            <td>이름</td><td>{{ request.user }}</td>
+        </tr>
+        <tr>
+            <td>이메일</td><td>{{ request.user.email }}</td>
+        </tr>
+        <tr>
+            <td>전화번호</td><td>{{ request.user.profile.phone_number }}</td>
+        </tr>
+        <tr>
+            <td>학교</td><td>{{ request.user.school }}</td>
+        </tr>
+        <tr class="question_list">
+        {% for question in resume.question_set.all %}
+            {% if question.is_short_answer == True %}
+                <td>{{ question.content }}</td>
+                <td>{{ short_answer_form }}</td>
+            {% endif %}
+        {% endfor%}
+        </tr>
+    </table>
+
+    <span id="applicant_img">
+        <strong>지원서 사진</strong><br/>
+        {{ applicant_resume_form }}
+    </span>
+    <br/><br/>
+    <div class="question_list">
+        {% for question in resume.question_set.all %}
+            {% if question.is_short_answer == False %}
+                <span>
+                <strong style="font-size: 50px;">Q. {{ question.content }}</strong>
+                </span><br/>
+                <span>
+                {{ long_answer_form }}
+                </span>
+            {% endif %}
+        {% endfor%}
+    </div>
+    <h3 style="text-align: center;"><strong>{{ resume.bottom_msg }}</strong></h3>
+    <button type="submit" class="btn btn-block">지원서 제출하기</button>
+</form>
+{% endif %}
+{% endblock %}
