@@ -1,0 +1,10 @@
+{% extends 'admin_base.html' %}
+
+{% block admin_content %}
+<form method="POST">
+    <h4>지원서 양식 설정</h4>
+    {% csrf_token %}
+    {{ admin_resume_form.as_p }}
+    <button class="btn" type="submit">새 지원서 양식 만들기</button>
+</form>
+{% endblock %}

@@ -11,6 +11,7 @@ urlpatterns = [
     path('core/', include('core.urls', namespace='core')),
     path('finance/', include('finance.urls', namespace='finance')),
     path('attendance/', include('attendance.urls', namespace='attendance')),
+    path('recruiting/', include('recruiting.urls', namespace='recruiting')),
 ]
 
 if settings.DEBUG:

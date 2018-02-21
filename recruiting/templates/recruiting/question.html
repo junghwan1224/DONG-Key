@@ -1,0 +1,7 @@
+{% if question.is_short_answer == True %}
+<td><h6>{{ question.content }}</h6></td>
+<td><input></input></td>
+{% else %}
+<h4>Q. {{ question.content }}</h4>
+<input style="height: 100px; border: 1px solid black;"> </input>
+{% endif %}
