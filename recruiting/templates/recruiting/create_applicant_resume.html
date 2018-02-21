@@ -3,7 +3,7 @@
 {% block non_admin_content %}
 
 {% if is_member %}
-<h3>이미 {{ club.club_name }}의 회원이시네요!</h3>
+<h3>이미 {{ club.name }}의 회원이시네요!</h3>
 <p>이미 회원이시라면 굳이 다시 지원하실 필요가 없습니다!</p>
 <a href="{% url 'club:non_admin_club' club.pk %}" class="btn">홈으로 돌아가기</a>
 {% else %}
@@ -26,11 +26,9 @@
             <td>학교</td><td>{{ request.user.school }}</td>
         </tr>
         <tr class="question_list">
-        {% for question in resume.question_set.all %}
-            {% if question.is_short_answer == True %}
-                <td>{{ question.content }}</td>
-                <td>{{ short_answer_form }}</td>
-            {% endif %}
+        {% for short_answer_form in short_answer_formset %}
+            <td>{{ short_answer_form.question.content }}</td>
+            <td>{{ short_answer_form }}</td>
         {% endfor%}
         </tr>
     </table>
@@ -41,15 +39,13 @@
     </span>
     <br/><br/>
     <div class="question_list">
-        {% for question in resume.question_set.all %}
-            {% if question.is_short_answer == False %}
-                <span>
-                <strong style="font-size: 50px;">Q. {{ question.content }}</strong>
-                </span><br/>
-                <span>
-                {{ long_answer_form }}
-                </span>
-            {% endif %}
+        {% for long_answer_form in long_answer_formset %}
+            <span>
+                <strong style="font-size: 50px;">Q. {{ long_answer_form.question.content }}</strong>
+            </span><br/>
+            <span>
+            {{ long_answer_form }}
+            </span>
         {% endfor%}
     </div>
     <h3 style="text-align: center;"><strong>{{ resume.bottom_msg }}</strong></h3>

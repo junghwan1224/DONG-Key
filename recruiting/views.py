@@ -22,14 +22,24 @@ def admin_resume_list(request, club_pk):
     return render(request, 'recruiting/admin_resume_list.html', ctx)
 
 
+def applicant_resume_form_list(request, club_pk):
+    club = get_object_or_404(Club, pk=club_pk)
+    resume_form_list = AdminResume.objects.filter(club=club)
+    ctx ={
+        'club': club,
+        'resume_form_list': resume_form_list,
+    }
+    return render(request, 'recruiting/applicant_resume_form_list.html', ctx)
+
+
 def applicant_resume_list(request, club_pk, resume_pk):
     club = get_object_or_404(Club, pk=club_pk)
-    resume_list = ApplicantResume.objects.filter(admin_resume__pk=resume_pk)
+    applicant_resume_list = ApplicantResume.objects.filter(admin_resume__pk=resume_pk)
     ctx = {
         'club':club,
-        'resume_list': resume_list,
+        'applicant_resume_list': applicant_resume_list,
     }
-    return render(request, 'recruiting/applicant_resume_list.html', ctx)
+    return render(request, 'recruiting/applicant_resume_form_list.html', ctx)
 
 
 def create_admin_resume(request, club_pk):
@@ -52,10 +62,10 @@ def create_admin_resume(request, club_pk):
 
 def read_admin_resume(request, club_pk, resume_pk):
     club = get_object_or_404(Club, pk=club_pk)
-    resume = get_object_or_404(AdminResume, pk=resume_pk)
+    admin_resume = get_object_or_404(AdminResume, pk=resume_pk)
     ctx = {
         'club': club,
-        'resume': resume,
+        'admin_resume': admin_resume,
         'question_form': QuestionForm(),
     }
     return render(request, 'recruiting/read_admin_resume.html', ctx)
@@ -79,6 +89,18 @@ def create_question(request, club_pk, resume_pk):
     # return render_to_response('recruiting/question.html', {'question': question })
 
 
+def answer_formset_factory(question_list, data=None):
+    formset = []
+    for question in question_list:
+        if question.is_short_answer:
+            form = ShortAnswerForm(data, prefix=question.pk)
+        else:
+            form = LongAnswerForm(data, prefix=question.pk)
+        form.question = question
+        formset.append(form)
+    return formset
+
+
 def create_applicant_resume(request, club_pk, resume_pk):
     club = Club.objects.get(pk=club_pk)
     admin_resume = get_object_or_404(AdminResume, pk=resume_pk)
@@ -86,8 +108,12 @@ def create_applicant_resume(request, club_pk, resume_pk):
     is_member = request.user.member_set.filter(club__pk=club_pk).exists()
 
     applicant_resume_form = ApplicantResumeForm(request.POST or None)
-    short_answer_form = ShortAnswerForm(request.POST or None)
-    long_answer_form = LongAnswerForm(request.POST or None)
+
+    short_question_list = [q for q in question_list if q.is_short_answer]
+    short_answer_formset = answer_formset_factory(short_question_list, data=request.POST or None)
+
+    long_question_list = [q for q in question_list if not q.is_short_answer]
+    long_answer_formset = answer_formset_factory(long_question_list, data=request.POST or None)
 
     if request.method == 'POST' and applicant_resume_form.is_valid():
         resume = applicant_resume_form.save(commit=False)
@@ -95,20 +121,17 @@ def create_applicant_resume(request, club_pk, resume_pk):
         resume.applicant = request.user
         resume.save()
 
-        for question in question_list:
+        for short_answer_form in short_answer_formset:
+            short_answer = short_answer_form.save(commit=False)
+            short_answer.applicant_resume = resume
+            short_answer.question = short_answer_form.question
+            short_answer.save()
+        for long_answer_form in long_answer_formset:
+            long_answer = long_answer_form.save(commit=False)
+            long_answer.applicant_resume = resume
+            long_answer.question = long_answer_form.question
+            long_answer.save()
 
-            if question.is_short_answer == True and short_answer_form.is_valid():
-                short_answer = short_answer_form.save(commit=False)
-                short_answer.applicant_resume = resume
-                short_answer.question = question
-                short_answer.save()
-
-            elif question.is_short_answer == False and long_answer_form.is_valid():
-                long_answer = long_answer_form.save(commit=False)
-                long_answer.applicant_resume = resume
-                long_answer.question = question
-                long_answer.save()
-                
         return redirect(reverse('recruiting:read_applicant_resume', kwargs={
             'club_pk': club.pk,
             'resume_pk': resume.pk,
@@ -118,8 +141,8 @@ def create_applicant_resume(request, club_pk, resume_pk):
         'is_member': is_member,
         'resume': admin_resume,
         'applicant_resume_form': applicant_resume_form,
-        'short_answer_form': short_answer_form,
-        'long_answer_form': long_answer_form,
+        'short_answer_formset': short_answer_formset,
+        'long_answer_formset': long_answer_formset,
     }
     return render(request, 'recruiting/create_applicant_resume.html', ctx)
 
