@@ -34,29 +34,23 @@
 
 {% for club in search_result %}
 <ul>
-    <!--<li>
-        <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.club_name }}</a></h3>
-        <p>{{ club.club_description }}</p>
-    </li>-->
-    <li><a href="">{{ club.name }}</a>&nbsp;&nbsp;&nbsp;
-
-    {% if club.is_member %}
-      <span>이미 가입이 완료된 동아리입니다 !</span>
-
-    {% else %}
-
-      {% if club.is_applied %}
-        이미 신청 접수가 완료된 동아리입니다 !
-
-      {% else %}
-        <form method='POST' action="{% url 'club:apply_club' club.name %}">
-          {% csrf_token %}
-          <button type='submit'>apply</button>
-        </form>
-      {% endif %}
-
-    {% endif %}
-
+    <li>
+        {% if club.is_member %}
+            <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+            <p>{{ club.description }}</p>
+            <p>이미 가입된 동아리입니다.</p>
+        {% else %}
+            {% if club.is_applied %}
+                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+                <p>{{ club.description }}</p>
+                <p>이미 신청된 동아리입니다.</p>
+            {% else %}
+                <form method='POST' action="{% url 'club:apply_club' club.name %}">
+                  {% csrf_token %}
+                  <button type='submit'>apply</button>
+                </form>
+            {% endif %}
+        {% endif %}
     </li>
 </ul>
 {% empty %}
