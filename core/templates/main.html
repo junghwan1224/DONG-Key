@@ -1,42 +1,6 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<!--{% if request.user.is_authenticated %}
-  {{ request.user.username }}
-  <form method='POST' action="{% url 'account:logout' %}">
-    {% csrf_token %}
-    <button type='submit'>logout</button>
-  </form>
-  <ul>
-    <li><a href="{% url 'account:update_profile' %}">edit profile</a></li>
-    <li><a href="{% url 'club:create_club' %}">entry club</a></li>
-    <li>my club as admin</li>
-
-      {% for club in admin_club_list %}
-      <ul>
-        <li><a href="{% url 'club:read_admin_club' club.club.name %}">{{ club.club.name }}</a></li>
-      </ul>
-      {% endfor %}
-
-    <li>my club as member</li>
-
-      {% for club in member_club_list %}
-      <ul>
-        <li><a href="{% url 'club:read_non_admin_club' club.club.name %}">{{ club.club.name }}</a></li>
-      </ul>
-      {% endfor %}
-
-  </ul>
-{% else %}
-  no user
-  <a href="{% url 'account:login' %}">login</a>
-{% endif %}
-
-<form method='GET' enctype="multipart/form-data">
-  <input type='text' name='q' value='{{ q }}' placeholder="club search" />
-  <button type='submit'>Search</button>
-</form>-->
-
 
 <div class="carousel carousel-slider center" data-indicators="true">
      <div class="carousel-item orange white-text" style="padding: 50px 0;" href="#one!">
@@ -91,6 +55,12 @@
     {% endif %}
 
     </li>
+
+    <!--<li>
+         <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.club_name }}</a></h3>
+         <p>{{ club.club_description }}</p>
+      </li>-->
+
 </ul>
   {% empty %}
     no search result
