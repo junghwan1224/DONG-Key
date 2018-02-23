@@ -35,22 +35,34 @@
            value='{{ q }}' placeholder="동아리 이름을 검색해보세요" />
     <button class="btn" id="search-btn" type='submit'>동아리 찾기</button>
 </form>
-
+{% if search_result %}
 {% for club in search_result %}
 <ul>
-    <li style="background-color: lightgray; padding: 15px;">
-        <h3><a href="{% url 'club:read_non_admin_club' club.name %}">
-            <img class="club_emblem-dongkey" src="/static/img/orangered_donkey.png" />{{ club.name }}</a></h3>
-        {% if club.description %}
-        <p>{{ club.description }}</p>
+    <li>
+        {% if club.is_member %}
+            <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+            <p>{{ club.description }}</p>
+            <p>이미 가입된 동아리입니다.</p>
         {% else %}
-        <p>해당 동아리 소개가 없습니다.</p>
+            {% if club.is_applied %}
+                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+                <p>{{ club.description }}</p>
+                <p>이미 신청된 동아리입니다.</p>
+            {% else %}
+                <form method='POST' action="{% url 'club:apply_club' club.name %}">
+                  {% csrf_token %}
+                  <button type='submit'>apply</button>
+                </form>
+            {% endif %}
+
         {% endif %}
     </li>
 </ul>
 {% endfor %}
 
+{% endif %}
 {% if q and not search_result %}
-<p style="background-color: lightgray; padding: 15px; text-align: center;">검색결과가 없습니다.</p>
+<p id="nothing-to-search-text">검색 결과가 없습니다</p>
+
 {% endif %}
 {% endblock %}

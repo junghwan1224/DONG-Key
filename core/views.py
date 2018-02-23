@@ -8,6 +8,7 @@ from club.models import Club
 def main_page(request):
     admin_member = Member.objects.filter(user__pk=request.user.pk, is_admin=True)
     as_member = Member.objects.filter(user__pk=request.user.pk, is_admin=False)
+
     ctx = {
         'search_result': search(request)[1],
         'q': search(request)[0],
@@ -21,8 +22,10 @@ def search(request):
     search_text = request.GET.get('q', '')
     if search_text:
         club_result = Club.objects.filter(name__icontains=search_text)
+
         for club in club_result:
             club.is_member = club.member_set.filter(user=request.user).exists()
+            club.is_applied = club.applylist_set.filter(user=request.user)
         return (search_text, club_result)
     else:
         club_result = None

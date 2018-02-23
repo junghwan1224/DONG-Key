@@ -31,11 +31,6 @@ def create_accounting(sender, instance, **kwargs):
         Accounting.objects.create(club=instance)
 
 
-@receiver(request_finished)
-def my_callback(sender, **kwargs):
-    print("Request finished!")
-
-
 class ApplyList(models.Model):
     club = models.ForeignKey(
             Club,
