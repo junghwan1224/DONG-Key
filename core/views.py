@@ -24,6 +24,7 @@ def search(request):
         club_result = Club.objects.filter(name__icontains=search_text)
 
         for club in club_result:
+
             if request.user.id is not None:
                 club.is_member = club.member_set.filter(user=request.user).exists()
                 club.is_applied = club.applylist_set.filter(user=request.user).exists()
