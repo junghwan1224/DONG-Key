@@ -25,10 +25,11 @@ def search(request):
 
         for club in club_result:
             club.is_member = club.member_set.filter(user=request.user).exists()
-
             club.is_applied = club.applylist_set.filter(user=request.user)
-
         return (search_text, club_result)
     else:
         club_result = None
         return (search_text, club_result)
+
+
+

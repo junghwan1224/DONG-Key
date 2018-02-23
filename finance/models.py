@@ -1,12 +1,11 @@
 from django.db import models
 from django import forms
 from django.utils import timezone
-from club.models import Club
 
 
 class Accounting(models.Model):
     club = models.OneToOneField(
-        Club,
+        'club.Club',
         on_delete=models.CASCADE,
         )
 
@@ -53,3 +52,10 @@ class Expenditure(models.Model):
         blank=True,
         null=True,
         )
+
+    def receipt_url(self):
+        if self.receipt:
+            receipt_url = self.receipt.url
+        else:
+            receipt_url = ''
+        return receipt_url

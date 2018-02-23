@@ -6,18 +6,31 @@
             <span style="padding:10px; background-color: orangered; font-size: 50px; color: white;">{{ club.name }}</span>
             <span>{{ club.club_description }}</span>
         </div>
-        <span style="background-color: orangered; font-color:white; margin: 20px; border-radius:100px; padding: 20px;">
-                <a href="{% url 'club:read_admin_club' club.name %}">동아리 홈 이동하기</a>
-        </span>
-        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-             <a href="#">회원명부 관리하기</a>
-        </span>
-        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-            <a href="{% url 'finance:club_accounting' club.pk %}">회계 관리</a>
-        </span>
-        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-            <a href="{% url 'recruiting:admin_resume_list' club.pk %}">리크루팅 관리</a>
-        </span>
+        <a href="{% url 'club:read_admin_club' club.name %}">
+            <span style="background-color: orangered; color:white; margin: 20px; border-radius:100px; padding: 20px;">
+                동아리 홈 이동하기</a>
+            </span>
+        </a>
+        <a href="#">
+            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+                회원명부 관리하기
+            </span>
+        </a>
+        <a href="{% url 'attendance:event_list' club.pk %}">
+            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+                출결 관리
+            </span>
+        </a>
+        <a href="{% url 'finance:club_accounting' club.pk %}">
+            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+                회계 관리
+            </span>
+        </a>
+        <a href="{% url 'recruiting:admin_resume_list' club.pk %}">
+            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+                리크루팅 관리
+            </span>
+        </a>
     </div>
 
     {% block admin_content %}{% endblock %}

@@ -1,6 +1,8 @@
 from django.db import models
+from django.dispatch import receiver
 from django.conf import settings
-# Create your models here.
+from finance.models import Accounting
+from django.core.signals import request_finished
 
 
 class Club(models.Model):
@@ -21,6 +23,12 @@ class Club(models.Model):
 
     def __str__(self):
         return self.name
+
+
+@receiver(models.signals.post_save, sender=Club)
+def create_accounting(sender, instance, **kwargs):
+    if not hasattr(instance, 'accounting'):
+        Accounting.objects.create(club=instance)
 
 
 class ApplyList(models.Model):

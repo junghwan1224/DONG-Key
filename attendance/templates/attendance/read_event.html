@@ -1,3 +1,6 @@
+{% extends 'admin_base.html' %}
+
+{% block admin_content %}
 <h4>{{ event.title }}</h4>
 <p> {{ event.event_at }}</p>
 <h4>결석한 사람</h4>
@@ -6,5 +9,4 @@
 {% empty %}
 <p>결석자가 없습니다.</p>
 {% endfor %}
-
-
+{% endblock %}
