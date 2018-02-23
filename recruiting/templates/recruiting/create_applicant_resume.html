@@ -2,11 +2,6 @@
 
 {% block non_admin_content %}
 
-{% if is_member %}
-<h3>이미 {{ club.name }}의 회원이시네요!</h3>
-<p>이미 회원이시라면 굳이 다시 지원하실 필요가 없습니다!</p>
-<a href="{% url 'club:read_non_admin_club' club.pk %}" class="btn">홈으로 돌아가기</a>
-{% else %}
 <form method="POST" class="resume-sample" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
     {% csrf_token %}
     <span id="resume-title" style="display: block; text-align: center; ">
@@ -51,5 +46,4 @@
     <h3 style="text-align: center;"><strong>{{ resume.bottom_msg }}</strong></h3>
     <button type="submit" class="btn btn-block">지원서 제출하기</button>
 </form>
-{% endif %}
 {% endblock %}

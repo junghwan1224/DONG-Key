@@ -1,36 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div id="admin_base">
-        <div style="display: block; margin: 20px;">
-            <span style="padding:10px; background-color: orangered; font-size: 50px; color: white;">{{ club.name }}</span>
-            <span>{{ club.club_description }}</span>
+
+    <div class="base_wrapper">
+        <div style="margin-bottom: 40px;">
+            <span style="font-size: 50px; color: orangered;display: block;">
+                <img class="club_emblem-dongkey" src="/static/img/orangered_donkeyandkey.png" />{{ club.name }}</span>
+            <p style="font-size: 20px; color:orangered;" class="left">관리자 모드</p>
+            <a class="right btn" style="margin-bottom: 10px;" href="{% url 'club:read_non_admin_club' club.name %}">
+                회원용 페이지로 이동하기</a>
         </div>
-        <a href="{% url 'club:read_admin_club' club.name %}">
-            <span style="background-color: orangered; color:white; margin: 20px; border-radius:100px; padding: 20px;">
-                동아리 홈 이동하기</a>
-            </span>
-        </a>
-        <a href="#">
-            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-                회원명부 관리하기
-            </span>
-        </a>
-        <a href="{% url 'attendance:event_list' club.pk %}">
-            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-                출결 관리
-            </span>
-        </a>
-        <a href="{% url 'finance:club_accounting' club.pk %}">
-            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-                회계 관리
-            </span>
-        </a>
-        <a href="{% url 'recruiting:admin_resume_list' club.pk %}">
-            <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-                리크루팅 관리
-            </span>
-        </a>
+        <table class="base_menu">
+            <tr>
+                <td><a class="base_menu_item" href="{% url 'club:read_admin_club' club.name %}">홈</a></td>
+                <td><a href="#" class="base_menu_item">기본정보</a></td>
+                <td><a href="#" class="base_menu_item">회칙 관리</a></td>
+                <td><a href="#" class="base_menu_item">회원명부 관리</a></td>
+                <td><a href="{% url 'attendance:event_list' club.pk %}" class="base_menu_item">출결 관리</a></td>
+                <td><a href="{% url 'finance:club_accounting' club.pk %}" class="base_menu_item">회계 관리</a></td>
+                <td><a href="{% url 'recruiting:admin_resume_list' club.pk %}" class="base_menu_item">리크루팅 관리</a></td>
+            </tr>
+        </table>
     </div>
 
     {% block admin_content %}{% endblock %}

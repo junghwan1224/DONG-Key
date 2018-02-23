@@ -101,11 +101,20 @@ def answer_formset_factory(question_list, data=None):
     return formset
 
 
+def create_applicant_resume_list(request, club_pk):
+    club = Club.objects.get(pk=club_pk)
+    is_member = request.user.member_set.filter(club__pk=club_pk).exists()
+    ctx ={
+        'club': club,
+        'is_member': is_member,
+    }
+    return render(request, 'recruiting/create_applicant_resume_list.html', ctx)
+
+
 def create_applicant_resume(request, club_pk, resume_pk):
     club = Club.objects.get(pk=club_pk)
     admin_resume = get_object_or_404(AdminResume, pk=resume_pk)
     question_list = Question.objects.filter(admin_resume__pk=resume_pk)
-    is_member = request.user.member_set.filter(club__pk=club_pk).exists()
 
     applicant_resume_form = ApplicantResumeForm(request.POST or None)
 
@@ -138,7 +147,6 @@ def create_applicant_resume(request, club_pk, resume_pk):
         }))
     ctx = {
         'club': club,
-        'is_member': is_member,
         'resume': admin_resume,
         'applicant_resume_form': applicant_resume_form,
         'short_answer_formset': short_answer_formset,

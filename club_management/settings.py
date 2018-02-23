@@ -135,6 +135,8 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'club', 'static'),
     os.path.join(BASE_DIR, 'member', 'static'),
     os.path.join(BASE_DIR, 'account', 'static'),
+    os.path.join(BASE_DIR, 'club_management', 'static'),
+    os.path.join(BASE_DIR, 'recruiting', 'static'),
 ]  # 굳이 안써도 된다. 이걸 쓰려면, 다른 위치에 스태틱 폴더를 둬서 관리하고 싶을 때 사용
 
 MEDIA_URL = '/media/'
