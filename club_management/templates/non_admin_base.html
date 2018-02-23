@@ -6,15 +6,19 @@
         <span style="padding:10px; background-color: orangered; font-size: 50px; color: white;">{{ club.name }}</span>
         <span>{{ club.description }}</span>
     </div>
-    <span style="background-color: orangered; font-color:white; margin: 20px; border-radius:100px; padding: 20px;">
-            <a href="{% url 'club:read_non_admin_club' club.pk %}">동아리 홈 이동하기</a>
-    </span>
-    <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-         <a href="#">동아리 지원하기</a>
-    </span>
-    <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
-         <a href="#">게시판</a>
-    </span>
+    <a href="{% url 'club:read_non_admin_club' club.name %}">
+        <span style="background-color: orangered; color:white; margin: 20px; border-radius:100px; padding: 20px;">동아리 홈 이동하기</span>
+    </a>
+    <a href="#">
+        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+            동아리 지원하기
+        </span>
+    </a>
+    <a href="#">
+        <span class="btn" style="background-color: orangered; color:white; margin: 20px; border-radius:100px;">
+            게시판
+        </span>
+    </a>
 </div>
     {% block non_admin_content %}{% endblock %}
 {% endblock %}

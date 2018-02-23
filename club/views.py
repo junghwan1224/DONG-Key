@@ -25,7 +25,7 @@ def create_club(request):
                 is_admin=True,
             )
         member.save()
-        return redirect('core:main_page')
+        return redirect(reverse('club:read_admin_club', kwargs={'club': club.name, }))
     ctx = {
         'club_form': club_form,
     }

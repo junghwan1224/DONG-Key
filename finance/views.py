@@ -7,7 +7,7 @@ from club.models import Club
 def club_accounting(request, pk):
     club = Club.objects.get(pk=pk)
     income_form = IncomeForm(request.POST or None, prefix='income')
-    expenditure_form = ExpenditureForm(request.POST or None, prefix='expd')
+    expenditure_form = ExpenditureForm(request.POST or None, request.FILES or None, prefix='expd')
     if request.method == "POST":
         if income_form.is_valid():
             income = income_form.save(commit=False)
