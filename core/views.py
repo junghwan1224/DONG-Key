@@ -8,6 +8,7 @@ from club.models import Club
 def main_page(request):
     admin_member = Member.objects.filter(user__pk=request.user.pk, is_admin=True)
     as_member = Member.objects.filter(user__pk=request.user.pk, is_admin=False)
+
     ctx = {
         'search_result': search(request)[1],
         'q': search(request)[0],

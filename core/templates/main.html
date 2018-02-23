@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
+
+<div style="text-align:center;">
+    <a id="main-title" href="{% url 'core:main_page' %}">DONGKey</a>
+</div>
+
 <div class="carousel carousel-slider center" data-indicators="true">
     <div class="carousel-item orange white-text" style="padding: 50px 0;" href="#one!">
         <h2>환영합니다!</h2>
@@ -23,8 +28,8 @@
 <script>
     $('.carousel.carousel-slider').carousel({fullWidth: true});
 </script>
-
 <br/><br/><br/><br/>
+
 <form class="search-set" method='GET' enctype="multipart/form-data">
     <input id='search-form' type='text' name='q'
            value='{{ q }}' placeholder="동아리 이름을 검색해보세요" />
@@ -34,13 +39,30 @@
 {% for club in search_result %}
 <ul>
     <li>
-        <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
-        <p>{{ club.description }}</p>
+        {% if club.is_member %}
+            <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+            <p>{{ club.description }}</p>
+            <p>이미 가입된 동아리입니다.</p>
+        {% else %}
+            {% if club.is_applied %}
+                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+                <p>{{ club.description }}</p>
+                <p>이미 신청된 동아리입니다.</p>
+            {% else %}
+                <form method='POST' action="{% url 'club:apply_club' club.name %}">
+                  {% csrf_token %}
+                  <button type='submit'>apply</button>
+                </form>
+            {% endif %}
+
+        {% endif %}
     </li>
 </ul>
 {% endfor %}
+
 {% endif %}
 {% if q and not search_result %}
 <p id="nothing-to-search-text">검색 결과가 없습니다</p>
+
 {% endif %}
 {% endblock %}

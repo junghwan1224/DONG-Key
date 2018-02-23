@@ -1,0 +1,17 @@
+{% extends 'non_admin_base.html' %}
+
+{% block non_admin_content %}
+
+{% if is_member %}
+<h3>이미 {{ club.name }}의 회원이시네요!</h3>
+<p>이미 회원이시라면 굳이 다시 지원하실 필요가 없습니다!</p>
+<a href="{% url 'club:read_non_admin_club' club.name %}" class="btn">홈으로 돌아가기</a>
+{% else %}
+
+{% for resume in club.adminresume_set.all %}
+<a href="{% url 'recruiting:create_applicant_resume' club.pk resume.pk %}">{{ resume.title }} 양식의 지원서 작성하기</a>
+{% empty %}
+<p> 작성 가능한 지원서 양식이 없습니다.</p>
+{% endfor %}
+{% endif %}
+{% endblock %}

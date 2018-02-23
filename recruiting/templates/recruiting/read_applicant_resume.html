@@ -46,10 +46,10 @@
     <div class="question_list">
         {% for question in resume.admin_resume.question_set.all %}
             {% if question.is_short_answer == False %}
-                <span>{{ question.content }}</span>
+                <div style="font-size: 50px; margin: 10px 0;">Q. {{ question.content }}</div>
                 {% for answer in resume.longanswer_set.all %}
                     {% if answer.question == question %}
-                    <span>{{ answer.content }}</span>
+                    <div style="padding: 10px;  width:100%; height:300px; border:1px solid lightgray;">{{ answer.content }}</div>
                     {% endif %}
                 {% endfor %}
             {% endif %}

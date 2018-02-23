@@ -1,0 +1,56 @@
+.base_menu_item:hover{
+    background-color: orange;
+}
+
+.base_wrapper{
+    margin-bottom: 40px;
+    display: block;
+}
+
+.base_menu{
+    background: orangered;
+    height: 58px;
+}
+
+.base_menu_item{
+    color:white;
+    font-weight: bold;
+    margin: 20px;
+    height: 100%;
+    text-align: center;
+    padding:20px;
+}
+
+.background{
+    background-color: orangered;
+}
+
+.side-nav strong{
+    margin-left: 30px;
+}
+
+#navigato{
+    background-color: orangered;
+}
+
+.icon-dongkey{
+    width: 35px;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+.icon-key{
+    width: 30px;
+    height: 40px;
+    margin-right: 10px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    vertical-align: middle;
+}
+
+a.ab{
+    text-decoration: none;
+}
