@@ -52,3 +52,10 @@ class Expenditure(models.Model):
         blank=True,
         null=True,
         )
+
+    def receipt_url(self):
+        if self.receipt:
+            receipt_url = self.receipt.url
+        else:
+            receipt_url = ''
+        return receipt_url
