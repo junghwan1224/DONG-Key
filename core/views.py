@@ -22,12 +22,17 @@ def search(request):
     search_text = request.GET.get('q', '')
     if search_text:
         club_result = Club.objects.filter(name__icontains=search_text)
+
         for club in club_result:
-            club.is_member = club.member_set.filter(user=request.user).exists()
+
+            if request.user.id is not None:
+                club.is_member = club.member_set.filter(user=request.user).exists()
+                club.is_applied = club.applylist_set.filter(user=request.user).exists()
+            else:
+                club.is_member = False
+                club.is_applied = False
+
         return (search_text, club_result)
     else:
         club_result = None
         return (search_text, club_result)
-
-
-
