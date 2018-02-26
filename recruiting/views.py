@@ -1,47 +1,23 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect, get_object_or_404, render_to_response
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
-from django.http.response import Http404, HttpResponse, JsonResponse
-from django.http import HttpResponseRedirect
-from django.views.decorators.http import require_POST
-from django.views.decorators.csrf import csrf_exempt
-from django.template.loader import render_to_string
+from django.http.response import HttpResponse
 
 from club.models import Club
 from .models import AdminResume, ApplicantResume, Question
-from .forms import QuestionForm, AdminResumeForm, ApplicantResumeForm, ShortAnswerForm, LongAnswerForm
+from .forms import QuestionForm, AdminResumeForm, ApplicantResumeForm, ShortAnswerForm, LongAnswerForm, AcceptForm
 
-
-def admin_resume_list(request, club_pk):
+@login_required
+def admin_resume_list_for_admin(request, club_pk):
     club = get_object_or_404(Club, pk=club_pk)
     resume_list = AdminResume.objects.filter(club=club)
     ctx = {
         'club': club,
         'resume_list': resume_list,
     }
-    return render(request, 'recruiting/admin_resume_list.html', ctx)
+    return render(request, 'recruiting/admin_resume_list_for_admin.html', ctx)
 
-
-def applicant_resume_form_list(request, club_pk):
-    club = get_object_or_404(Club, pk=club_pk)
-    resume_form_list = AdminResume.objects.filter(club=club)
-    ctx ={
-        'club': club,
-        'resume_form_list': resume_form_list,
-    }
-    return render(request, 'recruiting/applicant_resume_form_list.html', ctx)
-
-
-def applicant_resume_list(request, club_pk, resume_pk):
-    club = get_object_or_404(Club, pk=club_pk)
-    applicant_resume_list = ApplicantResume.objects.filter(admin_resume__pk=resume_pk)
-    ctx = {
-        'club':club,
-        'applicant_resume_list': applicant_resume_list,
-    }
-    return render(request, 'recruiting/applicant_resume_form_list.html', ctx)
-
-
+@login_required
 def create_admin_resume(request, club_pk):
     club = get_object_or_404(Club, pk=club_pk)
     admin_resume_form = AdminResumeForm(request.POST or None)
@@ -59,7 +35,7 @@ def create_admin_resume(request, club_pk):
     }
     return render(request,'recruiting/create_admin_resume.html', ctx)
 
-
+@login_required
 def read_admin_resume(request, club_pk, resume_pk):
     club = get_object_or_404(Club, pk=club_pk)
     admin_resume = get_object_or_404(AdminResume, pk=resume_pk)
@@ -70,7 +46,7 @@ def read_admin_resume(request, club_pk, resume_pk):
     }
     return render(request, 'recruiting/read_admin_resume.html', ctx)
 
-
+@login_required
 def create_question(request, club_pk, resume_pk):
     if request.method == "POST":
         club = Club.objects.get(pk=club_pk)
@@ -84,9 +60,73 @@ def create_question(request, club_pk, resume_pk):
 
             return render(request, 'recruiting/question.html', {'question': question, })
             # return HttpResponseRedirect("recruiting/question.html", {'question': question})
-
     return HttpResponse(status=405)
     # return render_to_response('recruiting/question.html', {'question': question })
+
+def update_question(request, question_pk):
+    form = QuestionForm(
+        request.POST or None,
+        instance= Question.objects.get(pk=question_pk),
+    )
+    if request.method == 'POST' and form.is_valid():
+        question = form.save()
+        # return redirect(reverse('recruiting:read_admin_resume', kwargs={
+        #     'club_pk': question.admin_resume.club.pk,
+        #     'resume_pk': question.admin_resume.pk,
+        # }))
+    ctx = {
+        'form': form,
+    }
+    return render(request, 'recruiting/update_question.html', ctx)
+
+
+def delete_question(request, question_pk):
+    if request.method == "POST":
+        question = get_object_or_404(Question, pk=question_pk)
+        question.delete()
+        return redirect(reverse('recruiting:read_admin_resume',  kwargs={
+            'club_pk': question.admin_resume.club.pk,
+            'resume_pk': question.admin_resume.pk,
+            }))
+    else:
+        return HttpResponse(status=400)
+
+
+
+@login_required
+def read_applicant_resume_list(request, club_pk, resume_pk):
+    club = get_object_or_404(Club, pk=club_pk)
+    applicant_resume_list = ApplicantResume.objects.filter(admin_resume__pk=resume_pk)
+    admin_resume =AdminResume.objects.get(pk=resume_pk)
+    ctx = {
+        'club':club,
+        'admin_resume': admin_resume,
+        'applicant_resume_list': applicant_resume_list,
+    }
+    return render(request, 'recruiting/read_applicant_resume_list.html', ctx)
+
+@login_required
+def read_applicant_resume_for_admin(request, club_pk, resume_pk):
+    club = Club.objects.get(pk=club_pk)
+    resume = ApplicantResume.objects.get(pk=resume_pk)
+    ctx ={
+        'club': club,
+        'resume': resume,
+        'accept_form': AcceptForm(request.POST or None, instance=resume),
+    }
+    return render(request, 'recruiting/read_applicant_resume_for_admin.html', ctx)
+
+@login_required
+def admin_resume_list_for_applicant(request, club_pk):
+    club = get_object_or_404(Club, pk=club_pk)
+    resume_form_list = AdminResume.objects.filter(club=club)
+    is_member = request.user.member_set.filter(club__pk=club_pk).exists()
+    ctx ={
+        'club': club,
+        'resume_form_list': resume_form_list,
+        'is_member': is_member,
+    }
+    return render(request, 'recruiting/admin_resume_list_for_applicant.html', ctx)
 
 
 def answer_formset_factory(question_list, data=None):
@@ -100,23 +140,13 @@ def answer_formset_factory(question_list, data=None):
         formset.append(form)
     return formset
 
-
-def create_applicant_resume_list(request, club_pk):
-    club = Club.objects.get(pk=club_pk)
-    is_member = request.user.member_set.filter(club__pk=club_pk).exists()
-    ctx ={
-        'club': club,
-        'is_member': is_member,
-    }
-    return render(request, 'recruiting/create_applicant_resume_list.html', ctx)
-
-
+@login_required
 def create_applicant_resume(request, club_pk, resume_pk):
     club = Club.objects.get(pk=club_pk)
     admin_resume = get_object_or_404(AdminResume, pk=resume_pk)
     question_list = Question.objects.filter(admin_resume__pk=resume_pk)
 
-    applicant_resume_form = ApplicantResumeForm(request.POST or None)
+    applicant_resume_form = ApplicantResumeForm(request.POST or None, request.FILES or None)
 
     short_question_list = [q for q in question_list if q.is_short_answer]
     short_answer_formset = answer_formset_factory(short_question_list, data=request.POST or None)
@@ -141,7 +171,7 @@ def create_applicant_resume(request, club_pk, resume_pk):
             long_answer.question = long_answer_form.question
             long_answer.save()
 
-        return redirect(reverse('recruiting:read_applicant_resume', kwargs={
+        return redirect(reverse('recruiting:read_applicant_resume_for_applicant', kwargs={
             'club_pk': club.pk,
             'resume_pk': resume.pk,
         }))
@@ -155,11 +185,25 @@ def create_applicant_resume(request, club_pk, resume_pk):
     return render(request, 'recruiting/create_applicant_resume.html', ctx)
 
 
-def read_applicant_resume(request, club_pk, resume_pk):
+@login_required
+def read_applicant_resume_for_applicant(request, club_pk, resume_pk):
     club = Club.objects.get(pk=club_pk)
     resume = ApplicantResume.objects.get(pk=resume_pk)
     ctx ={
         'club': club,
         'resume': resume,
     }
-    return render(request, 'recruiting/read_applicant_resume.html', ctx)
+    return render(request, 'recruiting/read_applicant_resume_for_applicant.html', ctx)
+
+
+def accept_applicant(request, resume_pk):
+    applicant_resume = get_object_or_404(ApplicantResume, pk=resume_pk)
+    form = AcceptForm(request.POST or None, instance=applicant_resume)
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        return redirect(reverse('recruiting:read_applicant_resume_for_admin'), kwargs={
+            'club_pk': applicant_resume.admin_resume.club.pk,
+            'resume_pk': applicant_resume.pk,
+        })
+    else:
+        return HttpResponse(status=405)

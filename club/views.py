@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.conf import settings
@@ -29,22 +29,13 @@ def create_club(request):
     ctx = {
         'club_form': club_form,
     }
-    return render(request, 'club_entry.html', ctx)
+    return render(request, 'club/club_entry.html', ctx)
 
 
 @login_required
 def read_admin_club(request, club):
     club = Club.objects.get(name=club)
-    club_rule = ClubRule.objects.filter(club=club)
-    apply_list = ApplyList.objects.filter(club__name=club)
-    club_member = Member.objects.filter(club__name=club)
-    ctx = {
-        'club': club,
-        'apply_list': apply_list,
-        'member_list': club_member,
-        'club_rule': club_rule,
-    }
-    return render(request, 'admin_club.html', ctx)
+    return render(request, 'club/admin_club.html', {'club': club})
 
 
 @login_required
@@ -53,7 +44,7 @@ def read_non_admin_club(request, club):
     ctx = {
         'club': club,
     }
-    return render(request, 'as_member_club.html', ctx)
+    return render(request, 'club/as_member_club.html', ctx)
 
 
 @login_required
@@ -83,34 +74,66 @@ def admit(request, pk, club):
                 is_admin=False,
             )
         apply_user.delete()
-        return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
+        return redirect(reverse('club:read_apply_list', kwargs={'club': club}))
     else:
         return HttpResponse(status=404)
+
+def read_apply_list(request, club):
+    club = get_object_or_404(Club, name=club)
+    apply_list = ApplyList.objects.filter(club__name=club)
+    club_member = Member.objects.filter(club__name=club)
+    ctx = {
+        'club': club,
+        'apply_list': apply_list,
+        'member_list': club_member,
+    }
+    return render(request, 'club/read_apply_list.html', ctx)
 
 
 @login_required
 def create_club_rule(request, club):
+    club = get_object_or_404(Club, name=club)
     club_rule_form = ClubRuleForm(request.POST or None)
     if request.method == 'POST' and club_rule_form.is_valid():
         form = club_rule_form.save(commit=False)
         form.club = Club.objects.get(name=club)
         form.save()
-        return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
-    return render(request, 'club_rule.html', {'club_rule_form': club_rule_form, })
+        return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club.name,}))
+    return render(request, 'club/club_rule.html', {'club_rule_form': club_rule_form, 'club':club})
 
 
+def read_admin_club_rule(request, club):
+    club = Club.objects.get(name=club)
+    club_rule = ClubRule.objects.filter(club=club)
+    ctx = {
+        'club': club,
+        'club_rule': club_rule,
+    }
+    return render(request, 'club/read_admin_club_rule.html', ctx)
+
+def read_non_admin_club_rule(request,club):
+    club = Club.objects.get(name=club)
+    club_rule = ClubRule.objects.filter(club=club)
+    ctx = {
+        'club': club,
+        'club_rule': club_rule,
+    }
+    return render(request, 'club/read_non_admin_club_rule.html', ctx)
 @login_required
 def update_club_rule(request, club, rule_pk):
+    club = get_object_or_404(Club, name=club)
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     form = ClubRuleForm(request.POST or None, instance=club_rule)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
-    return render(request, 'club_rule.html', {'club_rule_form': form, })
+    return render(request, 'club/club_rule.html', {'club_rule_form': form, 'club': club})
 
 
 @login_required
 def delete_club_rule(request, club, rule_pk):
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     club_rule.delete()
-    return redirect('club:read_admin_club', kwargs={'club': club})
+    return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club}))
+
+

@@ -1,6 +1,8 @@
 {% extends 'admin_base.html' %}
 
 {% block admin_content %}
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>출결 관리 > 이벤트 만들기</p>
 <form method="POST">
     {% csrf_token %}
     {{ event_form.as_p }}
