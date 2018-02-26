@@ -2,9 +2,13 @@
 
 {% block admin_content %}
 {% load money %}
-<div class="row">
-    <div class="col s12 m5" id="income_form">
-        <h3>{{ club.club_name }}</h3>
+
+
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>회계 관리</p>
+
+<div id="accounting_form">
+    <div id="income_form">
         <form method="POST" id="acc_form">
             {% csrf_token %}
             {{ income_form.as_p }}

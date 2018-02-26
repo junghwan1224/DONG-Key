@@ -10,6 +10,11 @@ urlpatterns = [
     path('apply/<str:club>/', views.apply_club, name='apply_club'),
     path('admit/<str:club>/<int:pk>/', views.admit, name='admit'),
     path('create/club/rule/<str:club>/', views.create_club_rule, name='create_club_rule'),
+
+    path('read/admin_club/apply_list/<str:club>/', views.read_apply_list, name='read_apply_list'),
+
+    path('read/admin_club/rule/<str:club>/', views.read_admin_club_rule, name='read_admin_club_rule'),
+    path('read/non_admin_club/rule/<str:club>/', views.read_non_admin_club_rule, name='read_non_admin_club_rule'),
     path('update/club/rule/<str:club>/<int:rule_pk>/', views.update_club_rule, name='update_club_rule'),
     path('delete/club/rule/<str:club>/<int:rule_pk>/', views.delete_club_rule, name='delete_club_rule'),
 ]

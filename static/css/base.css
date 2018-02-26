@@ -1,24 +1,43 @@
-.base_menu_item:hover{
-    background-color: orange;
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
 }
 
-.base_wrapper{
-    margin-bottom: 40px;
-    display: block;
+main {
+    flex: 1 0 auto;
 }
 
-.base_menu{
-    background: orangered;
-    height: 58px;
+.dropdown-button{
+    background-color: orangered;
+}
+
+.btn, .btn:hover {
+   background-color: orangered;
+}
+
+.menu-key-icon{
+    width: 30px;
+    height: 40px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.menu-title-text{
+    font-weight:bold;
+    color:orangered;
+    font-size: 30px;
+    margin: 0 0 10px;
+}
+
+.dropdown-content li>a{
+    color: orangered;
 }
 
 .base_menu_item{
-    color:white;
     font-weight: bold;
-    margin: 20px;
-    height: 100%;
     text-align: center;
-    padding:20px;
+    color: orangered;
 }
 
 .background{
@@ -49,8 +68,4 @@
     margin-top: 5px;
     margin-bottom: 5px;
     vertical-align: middle;
-}
-
-a.ab{
-    text-decoration: none;
 }

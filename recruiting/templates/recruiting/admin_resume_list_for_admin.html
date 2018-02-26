@@ -1,6 +1,9 @@
 {% extends 'admin_base.html' %}
 
 {% block admin_content %}
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>지원서 관리</p>
+<h6 class="menu-help-text">** 지원서 양식을 선택하면 해당 지원서 양식에 대한 수정 및 삭제와 지원자 관리가 가능합니다.</h6>
 
 <div class="collection">
     {% for resume in resume_list %}

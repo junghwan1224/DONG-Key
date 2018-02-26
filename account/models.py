@@ -5,10 +5,6 @@ from django.conf import settings
 
 
 class Profile(models.Model):
-    # club = models.ManyToManyField(
-    #         Club,
-    #         related_name='club_profile',
-    #     )
     user = models.OneToOneField(
             settings.AUTH_USER_MODEL,
             on_delete=models.CASCADE,

@@ -4,4 +4,6 @@
 <h4>{{ request.user.username }}의 프로필</h4>
 <p>학교 : {{ profile.school }}</p>
 <p>전화번호 : {{ profile.phone_number }}</p>
+<br/><br/><br/>
+<a  class="btn" href="{% url 'account:update_profile' request.user.pk %}">프로필 수정</a>
 {% endblock %}

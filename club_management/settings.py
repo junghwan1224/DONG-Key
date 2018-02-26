@@ -109,14 +109,16 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LOGIN_REDIRECT_URL = '/core/main'
+LOGIN_REDIRECT_URL = '/core/main/'
 LOGIN_URL = '/account/login/'
+
+LOGOUT_REDIRECT_URL = '/core/main/'
 
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'ko'
 
 TIME_ZONE = 'Asia/Seoul'
 
