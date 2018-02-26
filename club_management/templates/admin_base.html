@@ -15,7 +15,7 @@
                 <td><a class="base_menu_item" href="{% url 'club:read_admin_club' club.name %}">홈</a></td>
                 <td><a href="#" class="base_menu_item">기본정보</a></td>
                 <td><a href="#" class="base_menu_item">회칙 관리</a></td>
-                <td><a href="#" class="base_menu_item">회원명부 관리</a></td>
+                <td><a href="{% url 'club:manage_member' club.pk %}" class="base_menu_item">회원명부 관리</a></td>
                 <td><a href="{% url 'attendance:event_list' club.pk %}" class="base_menu_item">출결 관리</a></td>
                 <td><a href="{% url 'finance:club_accounting' club.pk %}" class="base_menu_item">회계 관리</a></td>
                 <td><a href="{% url 'recruiting:admin_resume_list' club.pk %}" class="base_menu_item">리크루팅 관리</a></td>
