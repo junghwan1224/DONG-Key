@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" />
     <link href="{% static 'css/base.css' %}?ver=1.3" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/main.css' %}?ver=1.3" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/board.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/finance.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -46,7 +47,7 @@
                             {% for member in request.user.member_set.all %}
                             <li class="clublist">
                                 {% if member.is_admin == True  %}
-                                <a href="{% url 'club:read_admin_club' member.club  %}">{{ member.club.name }}</a>
+                                <a href="{% url 'club:read_admin_club' member.club.name  %}">{{ member.club.name }}</a>
                                 {% endif %}
                             </li>
                             {% empty %}
@@ -62,7 +63,7 @@
                             {% for member in request.user.member_set.all %}
                             <li class="clublist">
                                 {% if member.is_admin == False %}
-                                <a href="{% url 'club:read_non_admin_club' member.club %}">{{ member.club.name }}</a>
+                                <a href="{% url 'club:read_non_admin_club' member.club.name %}">{{ member.club.name }}</a>
                                 {% endif %}
                             </li>
                             {% empty %}
@@ -90,7 +91,9 @@
     </header>
 
     <main class="container" style="margin: 50px auto">
-    {% block content %}{% endblock %}
+        <div class="row">
+        {% block content %}{% endblock %}
+        </div>
     </main>
 
     <footer class="page-footer background">

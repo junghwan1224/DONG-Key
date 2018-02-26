@@ -1,0 +1,19 @@
+.ctg {
+    padding-left: 30px;
+}
+th.title, td.title {
+    padding-left: 15px;
+}
+
+a.selected {
+    background-color: #ff4500;
+}
+
+div.title_part a.selected:hover, a.selected:focus {
+    background-color: #ff45009e;
+}
+
+div.article_list {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}

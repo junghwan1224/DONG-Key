@@ -2,8 +2,8 @@
 
 {% block admin_content %}
 {% load money %}
-<div id="accounting_form">
-    <div id="income_form">
+<div class="row">
+    <div class="col s12 m5" id="income_form">
         <h3>{{ club.club_name }}</h3>
         <form method="POST" id="acc_form">
             {% csrf_token %}
@@ -11,13 +11,13 @@
             <button type="submit">입력</button>
         </form>
     </div>
-    <div id="expd_form">
+    <div class="col s12 m5 offset-m2" id="expd_form">
         <form method="POST" id="acc_form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ expenditure_form.as_p }}
             <button type="submit">입력</button>
         </form>
-    </div>
+        </div>
 </div>
 
 <div class="divider"></div>

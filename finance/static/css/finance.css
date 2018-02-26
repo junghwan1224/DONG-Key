@@ -1,18 +1,16 @@
-#accounting_form {
-    margin-bottom: 30px
+div.row {
+    margin: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
 }
+
 #income_form {
     border: 1px solid black;
     padding: 30px 30px;
-    width: 350px;
-    display: inline-block;
 }
 #expd_form {
     border: 1px solid black;
     padding: 30px 30px;
-    width: 350px;
-    display: inline-block;
-    margin-left: 50px
 }
 
 div#accounting {

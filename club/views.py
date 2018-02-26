@@ -90,27 +90,31 @@ def admit(request, pk, club):
 
 @login_required
 def create_club_rule(request, club):
+    club = Club.objects.get(name=club)
     club_rule_form = ClubRuleForm(request.POST or None)
+
     if request.method == 'POST' and club_rule_form.is_valid():
         form = club_rule_form.save(commit=False)
         form.club = Club.objects.get(name=club)
         form.save()
-        return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
-    return render(request, 'club_rule.html', {'club_rule_form': club_rule_form, })
+        return redirect(reverse('club:read_admin_club', kwargs={'club': club.name}))
+    return render(request, 'club_rule.html', {'club_rule_form': club_rule_form, 'club': club, })
 
 
 @login_required
 def update_club_rule(request, club, rule_pk):
+    club = Club.objects.get(name=club)
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     form = ClubRuleForm(request.POST or None, instance=club_rule)
     if request.method == 'POST' and form.is_valid():
         form.save()
-        return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
-    return render(request, 'club_rule.html', {'club_rule_form': form, })
+        return redirect(reverse('club:read_admin_club', kwargs={'club': club.name}))
+    return render(request, 'club_rule.html', {'club_rule_form': form, 'club': club, })
 
 
 @login_required
 def delete_club_rule(request, club, rule_pk):
+    club = Club.objects.get(name=club)
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     club_rule.delete()
-    return redirect('club:read_admin_club', kwargs={'club': club})
+    return redirect(reverse('club:read_admin_club', kwargs={'club': club.name}))

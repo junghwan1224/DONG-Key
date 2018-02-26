@@ -12,6 +12,7 @@ urlpatterns = [
     path('finance/', include('finance.urls', namespace='finance')),
     path('attendance/', include('attendance.urls', namespace='attendance')),
     path('recruiting/', include('recruiting.urls', namespace='recruiting')),
+    path('board/', include('board.urls', namespace='board')),
 ]
 
 if settings.DEBUG:
