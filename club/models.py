@@ -8,15 +8,16 @@ from django.core.signals import request_finished
 class Club(models.Model):
     name = models.CharField(
             max_length=50,
-            verbose_name='club name',
+            verbose_name='동아리 이름',
         )
     image = models.ImageField(
+            verbose_name='동아리 이미지',
             upload_to='club/%Y/%m/%d/',
             blank=True,
             null=True,
         )
     description = models.TextField(
-            verbose_name='club description',
+            verbose_name='동아리 설명',
             blank=True,
             null=True,
         )
@@ -48,15 +49,15 @@ class ApplyList(models.Model):
 class ClubRule(models.Model):
     main_theme = models.CharField(
             max_length=30,
-            verbose_name='main theme',
+            verbose_name='회칙 항목 대분류',
         )
     sub_theme = models.CharField(
             max_length=30,
-            verbose_name='sub theme',
+            verbose_name='회칙 항목 소분류',
             blank=True,
             null=True,
         )
-    rule = models.TextField(verbose_name='rule')
+    rule = models.TextField(verbose_name='회칙 내용')
     club = models.ForeignKey(
             Club,
             on_delete=models.CASCADE,

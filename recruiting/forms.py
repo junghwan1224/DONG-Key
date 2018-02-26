@@ -35,7 +35,7 @@ class LongAnswerForm(forms.ModelForm):
     prefix = 'long_answer'
 
 
-class ApplicantAcceptingForm(forms.ModelForm):
+class AcceptForm(forms.ModelForm):
     class Meta:
         model = ApplicantResume
         fields = ('is_accepted',)

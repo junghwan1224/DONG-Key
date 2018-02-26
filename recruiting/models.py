@@ -49,6 +49,7 @@ class ApplicantResume(models.Model):
     )
     image = models.ImageField(
         verbose_name='사진 첨부하기',
+        upload_to='resume_img/%Y/%m/%d/',
         blank=True,
         null=True,
     )
@@ -59,6 +60,7 @@ class ApplicantResume(models.Model):
         null=True,
     )
     is_accepted = models.BooleanField(
+        verbose_name='합격 여부',
         default=False,
     )
     created_at = models.DateTimeField(auto_now_add=True)
@@ -67,6 +69,13 @@ class ApplicantResume(models.Model):
     def __str__(self):
         return '{0} 동아리의 {1} 버전의 지원서 by {2} '.format(
             self.admin_resume.club.name, self.admin_resume.title, self.applicant)
+
+    def image_url(self):
+        if self.image:
+            image_url = self.image.url
+        else:
+            image_url = '/static/img/orangered_donkey.png'
+        return image_url
 
 
 class Question(models.Model):

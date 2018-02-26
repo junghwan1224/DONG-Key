@@ -2,48 +2,56 @@
 
 {% block non_admin_content %}
 
-<form method="POST" class="resume-sample" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
-    {% csrf_token %}
-    <span id="resume-title" style="display: block; text-align: center; ">
-        <h1>{{ resume.title }}</h1>
-    </span>
-    <table>
-        <tr>
-            <td>이름</td><td>{{ request.user }}</td>
-        </tr>
-        <tr>
-            <td>이메일</td><td>{{ request.user.email }}</td>
-        </tr>
-        <tr>
-            <td>전화번호</td><td>{{ request.user.profile.phone_number }}</td>
-        </tr>
-        <tr>
-            <td>학교</td><td>{{ request.user.school }}</td>
-        </tr>
-        <tr class="question_list">
-        {% for short_answer_form in short_answer_formset %}
-            <td>{{ short_answer_form.question.content }}</td>
-            <td>{{ short_answer_form }}</td>
-        {% endfor%}
-        </tr>
-    </table>
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>
+    지원서 작성 > {{ admin_resume.title }} 지원서 양식</p>
 
-    <span id="applicant_img">
-        <strong>지원서 사진</strong><br/>
-        {{ applicant_resume_form }}
-    </span>
-    <br/><br/>
-    <div class="question_list">
-        {% for long_answer_form in long_answer_formset %}
-            <span>
-                <strong style="font-size: 50px;">Q. {{ long_answer_form.question.content }}</strong>
-            </span><br/>
-            <span>
-            {{ long_answer_form }}
-            </span>
-        {% endfor%}
-    </div>
-    <h3 style="text-align: center;"><strong>{{ resume.bottom_msg }}</strong></h3>
-    <button type="submit" class="btn btn-block">지원서 제출하기</button>
-</form>
+<div>
+    <form method="POST" class="resume-sample" enctype="multipart/form-data"
+          style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
+        {% csrf_token %}
+        <span id="resume-title" style="display: block; text-align: center; ">
+            <h4>{{ club.name }} 지원서</h4>
+        </span>
+
+        <span id="applicant_img">
+            <strong>지원서 사진</strong><br/>
+            {{ applicant_resume_form }}
+        </span>
+        <table>
+            <tr>
+                <td>이름</td><td>{{ request.user }}</td>
+            </tr>
+            <tr>
+                <td>이메일</td><td>{{ request.user.email }}</td>
+            </tr>
+            <tr>
+                <td>전화번호</td><td>{{ request.user.profile.phone_number }}</td>
+            </tr>
+            <tr>
+                <td>학교</td><td>{{ request.user.profile.school }}</td>
+            </tr>
+            <tr class="question_list">
+            {% for short_answer_form in short_answer_formset %}
+                <td>{{ short_answer_form.question.content }}</td>
+                <td>{{ short_answer_form }}</td>
+            {% endfor%}
+            </tr>
+        </table>
+
+        <br/><br/>
+        <div class="question_list">
+            {% for long_answer_form in long_answer_formset %}
+                <span>
+                    <strong style="font-size: 30px;">Q. {{ long_answer_form.question.content }}</strong>
+                </span><br/>
+                <span>
+                {{ long_answer_form }}
+                </span>
+            {% endfor%}
+        </div>
+        <h3 style="text-align: center;"><strong>{{ resume.bottom_msg }}</strong></h3>
+        <button  type="submit" class="btn btn-block">지원서 제출하기</button>
+    </form>
+</div>
 {% endblock %}

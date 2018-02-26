@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
-# from django.conf import settings
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import (
         authenticate,
@@ -34,30 +34,34 @@ def login(request):
 
 
 def logout(request):
-    if request.method == 'POST':
-        auth_logout(request)
-    return redirect('core:main_page')
+    auth_logout(request)
+    return redirect(settings.LOGOUT_REDIRECT_URL)
 
 
 def signup(request):
-    form = SignupForm(request.POST or None)
-    if request.method == 'POST' and form.is_valid():
-        form.save()
+    signup_form = SignupForm(request.POST or None)
+    profile_form = ProfileForm(request.POST or None)
+    if request.method == 'POST' and signup_form.is_valid() and profile_form.is_valid():
+        user = signup_form.save()
+        profile = profile_form.save(commit=False)
+        profile.user = user
+        profile.save()
         return redirect('account:login')
     ctx = {
-        'form': form,
+        'signup_form': signup_form,
+        'profile_form': profile_form,
     }
     return render(request, 'account/signup.html', ctx)
 
 
 @login_required
-def read_profile(request):
-    profile = Profile.objects.get(user__pk=request.user.pk)
+def read_profile(request, user_pk):
+    profile = Profile.objects.get(user__pk=user_pk)
     return render(request, 'account/read_profile.html', {'profile': profile, })
 
 
 @login_required
-def update_profile(request):
+def update_profile(request, user_pk):
     try:
         profile_form = ProfileForm(request.POST or None, instance=request.user.profile)
     except:  # 예외처리 에러 몰라서 작성 안함
@@ -66,8 +70,8 @@ def update_profile(request):
         profile = profile_form.save(commit=False)
         profile.user = request.user
         profile.save()
-        return redirect('core:main_page')
+        return redirect(reverse('account:read_profile', kwargs={'user_pk': user_pk }))
     ctx = {
         'profile_form': profile_form,
     }
-    return render(request, 'profile_edit.html', ctx)
+    return render(request, 'account/update_profile.html', ctx)
