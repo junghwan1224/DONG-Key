@@ -11,7 +11,7 @@ class EventForm(forms.ModelForm):
     def __init__(self, club, *args, **kwargs):
         super(EventForm, self).__init__(*args, **kwargs)
         members = Member.objects.filter(club=club)
-        self.fields['absent_member'].choices = [(str(i+1), members[i].user.username) for i in range(len(members))]
+        self.fields['absent_member'].choices = [(members[i].pk, members[i].user.username) for i in range(len(members))]
 
 
 class DateInputForm(forms.Form):
