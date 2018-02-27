@@ -5,7 +5,9 @@ app_name = 'club'
 
 urlpatterns = [
     path('create/', views.create_club, name='create_club'),
+    path('read_admin_club/<str:club>/<int:ctg_pk>/', views.read_admin_club, name='read_admin_club_ctg'),
     path('read_admin_club/<str:club>/', views.read_admin_club, name='read_admin_club'),
+    path('read_non_admin_club/<str:club>/<int:ctg_pk>/', views.read_non_admin_club, name='read_non_admin_club_ctg'),
     path('read_non_admin_club/<str:club>/', views.read_non_admin_club, name='read_non_admin_club'),
     path('apply/<str:club>/', views.apply_club, name='apply_club'),
     path('admit/<int:club>/<int:pk>/', views.admit, name='admit'),

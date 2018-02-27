@@ -8,9 +8,10 @@ from django.db.models import Q
 from .models import ApplyList
 from .models import Club
 from .models import ClubRule
-from member.models import Member
 from .forms import ClubForm
 from .forms import ClubRuleForm
+from member.models import Member
+from board.models import Article, Category
 # Create your views here.
 
 
@@ -33,15 +34,38 @@ def create_club(request):
 
 
 @login_required
-def read_admin_club(request, club):
+def read_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
-    return render(request, 'club/admin_club.html', {'club': club})
+    if ctg_pk is not None:
+        article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
+        ctg = get_object_or_404(Category, pk=ctg_pk)
+    else:
+        article_list = Article.objects.filter(club=club).order_by('category__pk', '-updated_at')
+        ctg = None
+    ctx = {
+        'article_list': article_list,
+        'ctg_notice': Category.objects.get(name='공지사항'),
+        'category_list': Category.objects.exclude(name='공지사항'),
+        'ctg_selected': ctg,
+        'club': club,
+    }
+    return render(request, 'club/admin_club.html', ctx)
 
 
 @login_required
-def read_non_admin_club(request, club):
+def read_non_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
+    if ctg_pk is not None:
+        article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
+        ctg = get_object_or_404(Category, pk=ctg_pk)
+    else:
+        article_list = Article.objects.filter(club=club).order_by('category__pk', '-updated_at')
+        ctg = None
     ctx = {
+        'article_list': article_list,
+        'ctg_notice': Category.objects.get(name='공지사항'),
+        'category_list': Category.objects.exclude(name='공지사항'),
+        'ctg_selected': ctg,
         'club': club,
     }
     return render(request, 'club/as_member_club.html', ctx)
