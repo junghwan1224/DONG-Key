@@ -2,26 +2,32 @@
 
 {% block content %}
 
- <div class="base_wrapper">
+ <div style="margin-bottom: 10px;">
     <div style="display: block; margin-bottom: 40px;">
-        <span style="font-size: 50px; color: orangered;">
-            <img class="club_emblem-dongkey" src="/static/img/orangered_donkey.png" />{{ club.name }}</span>
+        <a href="{% url 'club:read_non_admin_club' club.name %}"><span style="font-size: 50px; color: orangered; display: block;">
+            <img class="club_emblem-dongkey" src="/static/img/orangered_donkeyandkey.png" />{{ club.name }}</span></a>
         {% if club.description %}
         <p>{{ club.description }}</p>
         {% else %}
         <p>{{ club.name }}에 오신 것을 환영합니다!</p>
         {% endif %}
     </div>
-    <table class="base_menu">
-        <tr>
-            <td><a href="{% url 'club:read_non_admin_club' club.name %}" class="base_menu_item">동아리 홈</a></td>
-            <td><a href="#" class="base_menu_item">게시판</a></td>
-            <td><a href="#" class="base_menu_item">동아리 회칙</a></td>
-            <td><a href="#" class="base_menu_item">동아리 회계정보</a></td>
-            <td><a href="{% url 'recruiting:create_applicant_resume_list' club.pk %}" class="base_menu_item">동아리 지원하기</a></td>
-        </tr>
-    </table>
+
+    <div style="text-align: right;">
+        <a class='dropdown-button btn' href='#' data-activates='dropdown1'>메뉴
+            <i class="material-icons" style="vertical-align: middle; color:white;">arrow_drop_down</i></a>
+
+        <ul id='dropdown1' class='dropdown-content'>
+            <li><a class="base_menu_item" href="{% url 'club:read_non_admin_club' club.name %}">홈</a></li>
+            <li><a href="#" class="base_menu_item">기본정보</a></li>
+            <li><a href="{% url 'club:read_non_admin_club_rule' club.name %}" class="base_menu_item">회칙</a></li>
+            <li><a href="#" class="base_menu_item">회원명부</a></li>
+            <li><a href="#" class="base_menu_item">출결 확인</a></li>
+            <li><a href="#" class="base_menu_item">회계 정보</a></li>
+            <li><a href="{% url 'recruiting:admin_resume_list_for_applicant' club.pk %}" class="base_menu_item">
+                지원하기</a></li>
+        </ul>
+    </div>
 </div>
     {% block non_admin_content %}{% endblock %}
 {% endblock %}
-dssd

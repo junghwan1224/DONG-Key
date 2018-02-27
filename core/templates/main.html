@@ -2,10 +2,9 @@
 
 {% block content %}
 
-<div style="text-align:center;">
-    <a id="main-title" href="{% url 'core:main_page' %}">DONGKey</a>
+<div class="col s8 l12" style="text-align:center;">
+    <a id="main-title"  href="{% url 'core:main_page' %}">DONGKey</a>
 </div>
-
 <div class="carousel carousel-slider center" data-indicators="true">
     <div class="carousel-item orange white-text" style="padding: 50px 0;" href="#one!">
         <h2>환영합니다!</h2>
@@ -36,33 +35,27 @@
     <button class="btn" id="search-btn" type='submit'>동아리 찾기</button>
 </form>
 {% if search_result %}
-{% for club in search_result %}
+
+    {% for club in search_result %}
 <ul>
     <li>
-        {% if request.user.is_authenticated %}
-            {% if club.is_member %}
-                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
+        {% if club.is_member %}
+            <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
+            <p>{{ club.description }}</p>
+            <p>이미 가입된 동아리입니다.</p>
+        {% else %}
+            {% if club.is_applied %}
+                <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
                 <p>{{ club.description }}</p>
-                <p>이미 가입된 동아리입니다.</p>
+                <p>이미 신청된 동아리입니다.</p>
             {% else %}
-                {% if club.is_applied %}
-                    <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
-                    <p>{{ club.description }}</p>
-                    <p>이미 신청된 동아리입니다.</p>
-                {% else %}
-                    <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
-                    <p>{{ club.description }}</p>
-                    <form method='POST' action="{% url 'club:apply_club' club.name %}">
-                      {% csrf_token %}
-                      <button type='submit'>apply</button>
-                    </form>
-                {% endif %}
-
+                <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
+                <p>{{ club.description }}</p>
+                <form method='POST' action="{% url 'club:apply_club' club.name %}">
+                  {% csrf_token %}
+                  <button type='submit'>apply</button>
+                </form>
             {% endif %}
-
-            {% else %}
-                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
-                <p>{{ club.description }}</p>
 
         {% endif %}
     </li>

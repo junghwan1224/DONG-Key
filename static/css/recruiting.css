@@ -1,0 +1,8 @@
+.applicant_img{
+    width: 120px;
+    height: 150px;
+    display: inline-block;
+    float: right;
+    margin-right: 20px;
+    boder: 1px solid lightgray;
+}

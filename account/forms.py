@@ -12,8 +12,8 @@ class LoginForm(forms.Form):
 
 class AuthForm(AuthenticationForm):
     error_messages = {
-        'invalid_login': 'Your id or password is wrong',
-        'inactive': 'No user',
+        'invalid_login': '아이디 혹은 패스워드가 일치하지 않습니다.',
+        'inactive': '회원가입을 먼저 해주세요.',
     }
 
 
@@ -56,4 +56,4 @@ class SignupForm(UserCreationForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        exclude = ('club', 'user', )
+        exclude = ('user', )
