@@ -2,6 +2,7 @@
 
 {% block content %}
 
+
 <div style="margin-bottom: 10px;">
     <div>
         <a href="{% url 'club:read_admin_club' club.name %}"><span style="font-size: 50px; color: orangered; display: block;">
@@ -18,7 +19,7 @@
             <li><a href="{% url 'club:read_admin_club' club.name %}" class="base_menu_item">홈</a></li>
             <li><a href="{% url 'club:read_apply_list' club.name  %}" class="base_menu_item">회원 승인</a></li>
             <li><a href="{% url 'club:read_admin_club_rule' club.name %}" class="base_menu_item">회칙 관리</a></li>
-            <li><a href="#" class="base_menu_item">회원명부 관리</a></li>
+            <li><a href="{% url 'club:manage_member' club.pk %}" class="base_menu_item">회원명부 관리</a></li>
             <li><a href="{% url 'attendance:event_list' club.pk %}" class="base_menu_item">출결 관리</a></li>
             <li><a href="{% url 'finance:club_accounting' club.pk %}" class="base_menu_item">회계 관리</a></li>
             <li><a href="{% url 'recruiting:admin_resume_list_for_admin' club.pk %}"

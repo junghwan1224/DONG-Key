@@ -1,0 +1,17 @@
+#member_wrapper{
+    /*line-height: top;*/
+}
+
+#member_area{
+    display: inline-block;
+    border: groove;
+    width: 49%;
+    vertical-align: top;
+}
+
+#applicant_area{
+    display: inline-block;
+    border: groove;
+    width: 50%;
+    vertical-align: top;
+}

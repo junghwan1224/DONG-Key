@@ -1,0 +1,53 @@
+{% extends 'admin_base.html' %}
+
+{% block admin_content %}
+
+<div id='member_wrapper'>
+  <div id='member_area'>
+    <label>회원 명단</label><br>
+    {% for member in all_member %}
+
+      {% if member.is_admin is True %}
+        <p>
+            <input name="group{{member.user.pk}}" type="radio" id="test{{member.user.pk}}" class='member_radio' />
+            <label for="test1">{{ member.user.first_name }}{{ member.user.last_name }} (admin)</label>
+        </p>
+      {% else %}
+        <p>
+            <input name="group{{member.user.pk}}" type="radio" id="test{{member.user.pk}}" class='member_radio' />
+            <label for="test1">{{ member.user.first_name }}{{ member.user.last_name }}</label>
+            <form style='display: inline-block;' method='POST' action="{% url 'club:update_is_admin' club.pk member.user.pk %}">
+              {% csrf_token %}
+              <button type='submit' class='btn'>set admin</button>
+            </form>
+        </p>
+      {% endif %}
+
+    {% endfor %}
+  </div>
+
+
+  <div id='applicant_area'>
+    <label>지원자 명단</label><br>
+    {% if applicant_list %}
+      {% for applicant in applicant_list %}
+        {{ applicant.user.first_name }}{{ applicant.user.last_name }}&nbsp;&nbsp;&nbsp;
+
+        <form style='display: inline-block;' method="POST" action="{% url 'club:admit' club.pk applicant.user.pk %}">
+          {% csrf_token %}
+          <button type='submit' class='btn'>admit</button>
+        </form>
+
+      {% endfor %}
+    {% else %}
+      지원자가 없습니다.
+    {% endif %}
+  </div>
+</div>
+
+<!--<form method='POST' action="{% url 'club:exit_club' club.pk request.user.pk %}">
+  {% csrf_token %}
+  <button type='submit' class='btn'>exit club</button>
+</form>-->
+
+{% endblock %}
