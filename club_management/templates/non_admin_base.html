@@ -13,6 +13,7 @@
         {% endif %}
     </div>
 
+
     <div style="text-align: right;">
         <a class='dropdown-button btn' href='#' data-activates='dropdown1'>메뉴
             <i class="material-icons" style="vertical-align: middle; color:white;">arrow_drop_down</i></a>
@@ -22,6 +23,7 @@
             <li><a href="#" class="base_menu_item">기본정보</a></li>
             <li><a href="{% url 'club:read_non_admin_club_rule' club.name %}" class="base_menu_item">회칙</a></li>
             <li><a href="#" class="base_menu_item">회원명부</a></li>
+            <li><a href="{% url 'board:article_list' club.pk %}" class="base_menu_item">게시판</a></li>
             <li><a href="#" class="base_menu_item">출결 확인</a></li>
             <li><a href="#" class="base_menu_item">회계 정보</a></li>
             <li><a href="{% url 'recruiting:admin_resume_list_for_applicant' club.pk %}" class="base_menu_item">

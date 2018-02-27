@@ -132,6 +132,7 @@ def read_apply_list(request, club):
 def create_club_rule(request, club):
     club = get_object_or_404(Club, name=club)
     club_rule_form = ClubRuleForm(request.POST or None)
+
     if request.method == 'POST' and club_rule_form.is_valid():
         form = club_rule_form.save(commit=False)
         form.club = Club.objects.get(name=club)
@@ -149,7 +150,6 @@ def read_admin_club_rule(request, club):
         'club_rule': club_rule,
     }
     return render(request, 'club/read_admin_club_rule.html', ctx)
-
 
 def read_non_admin_club_rule(request, club):
     club = Club.objects.get(name=club)
@@ -175,6 +175,7 @@ def update_club_rule(request, club, rule_pk):
 
 @login_required
 def delete_club_rule(request, club, rule_pk):
+    club = Club.objects.get(name=club)
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     club_rule.delete()
     return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club}))

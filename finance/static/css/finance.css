@@ -1,44 +1,40 @@
-#accounting_form {
-    margin-bottom: 30px
+div.row .1st{
+    margin: 30px;
+}
+div#test {
+    height: 30px;
+    border: 1px solid black;
 }
 #income_form {
     border: 1px solid black;
     padding: 30px 30px;
-    width: 350px;
-    display: inline-block;
 }
 #expd_form {
     border: 1px solid black;
     padding: 30px 30px;
-    width: 350px;
-    display: inline-block;
-    margin-left: 50px
 }
 
 div#accounting {
     text-align: center;
 }
 #account_sum {
-    margin: 100px auto;
-    text-align: center;
 }
 #account_sum h4 {
     text-align: center;
+    margin-top: 60px;
 }
 
 div#income_sum {
     margin-top: 30px;
     display: inline-block;
-    width: 750px;
     border: 1px solid gray;
-    border-radius: 5px
+    border-radius: 5px;
 }
 div#expd_sum {
     margin-top: 30px;
     display: inline-block;
-    width: 750px;
     border: 1px solid gray;
-    border-radius: 5px
+    border-radius: 5px;
 }
 .receipt_image{
     width: 18px;
@@ -115,4 +111,19 @@ table {
 .material-icons {
     font-size: 20px;
     color: black;
+}
+div#year {
+    width: 20%;
+    display: inline-block;
+}
+div#month {
+    width: 20%;
+    display: inline-block;
+    margin-left: 10px;
+}
+div.date_input {
+    text-align: center;
+}
+.select-wrapper input.select-dropdown {
+    text-align: center;
 }

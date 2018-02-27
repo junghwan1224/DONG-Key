@@ -14,6 +14,8 @@
     <link href="{% static 'css/finance.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/manage_member.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
     <link href="{% static 'css/recruiting.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/board.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
+    <link href="{% static 'css/attendance.css' %}?ver=1.0" rel="stylesheet" type="text/css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
@@ -54,7 +56,7 @@
                             {% for member in request.user.member_set.all %}
                             <li class="clublist">
                                 {% if member.is_admin == True  %}
-                                <a href="{% url 'club:read_admin_club' member.club  %}">{{ member.club.name }}</a>
+                                <a href="{% url 'club:read_admin_club' member.club.name  %}">{{ member.club.name }}</a>
                                 {% endif %}
                             </li>
                             {% empty %}
@@ -70,7 +72,7 @@
                             {% for member in request.user.member_set.all %}
                             <li class="clublist">
                                 {% if member.is_admin == False %}
-                                <a href="{% url 'club:read_non_admin_club' member.club %}">{{ member.club.name }}</a>
+                                <a href="{% url 'club:read_non_admin_club' member.club.name %}">{{ member.club.name }}</a>
                                 {% endif %}
                             </li>
                             {% empty %}

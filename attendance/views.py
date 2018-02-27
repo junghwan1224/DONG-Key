@@ -1,15 +1,20 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
+from django.http import HttpResponse, Http404, JsonResponse
+from django.template.loader import render_to_string
 from club.models import Club
 from .models import Event
-from .forms import EventForm
+from .forms import EventForm, DateInputForm
 
 
 def event_list(request, pk):
     club = get_object_or_404(Club, pk=pk)
+    form = DateInputForm()
+    event_list = club.event_set.all()
     ctx = {
             'club': club,
-            'event_list': club.event_set.all(),
+            'dateinput_form': form,
+            'event_list': event_list[:15],
     }
     return render(request, 'attendance/event_list.html', ctx)
 
@@ -41,3 +46,24 @@ def read_event(request, event_pk):
             'event': event,
      }
     return render(request, 'attendance/read_event.html', ctx)
+
+
+def search_by_date(request, pk):
+    club = Club.objects.get(pk=pk)
+    form = DateInputForm(request.GET)
+    if form.is_valid():
+        year = int(form.cleaned_data['year'])
+        month = int(form.cleaned_data['month'])
+        search_attendance = club.event_set.filter(
+            event_at__year="{0}".format(year),
+            event_at__month="{0}".format(month))
+        ctx = {
+            'year': year,
+            'month': month,
+            'club': club,
+            'event_list': search_attendance.order_by('event_at')
+        }
+        html = render_to_string('attendance/search_by_date.html', ctx)
+        return JsonResponse({'success': True, 'html': html})
+    else:
+        return JsonResponse({'success': False, 'status': 'form_invaild'})
