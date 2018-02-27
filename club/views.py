@@ -132,7 +132,6 @@ def read_apply_list(request, club):
 def create_club_rule(request, club):
     club = get_object_or_404(Club, name=club)
     club_rule_form = ClubRuleForm(request.POST or None)
-    club = Club.objects.get(club=club)
     if request.method == 'POST' and club_rule_form.is_valid():
         form = club_rule_form.save(commit=False)
         form.club = Club.objects.get(name=club)
@@ -167,7 +166,6 @@ def update_club_rule(request, club, rule_pk):
     club = get_object_or_404(Club, name=club)
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     form = ClubRuleForm(request.POST or None, instance=club_rule)
-    club = Club.objects.get(club=club)
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
