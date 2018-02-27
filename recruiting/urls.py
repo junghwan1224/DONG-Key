@@ -31,5 +31,7 @@ urlpatterns = [
     path('<int:club_pk>/<int:resume_pk>/create_applicant/', views.create_applicant_resume,
          name='create_applicant_resume'),
     path('<int:club_pk>/<int:resume_pk>/read_applicant/', views.read_applicant_resume_for_applicant,
-         name='read_applicant_resume_for_applicant')
+         name='read_applicant_resume_for_applicant'),
+    path('<int:resume_pk>/delete_applicant/', views.delete_applicant_resume,
+         name='delete_applicant_resume'),
 ]

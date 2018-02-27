@@ -81,16 +81,12 @@ def update_question(request, question_pk):
 
 
 def delete_question(request, question_pk):
-    if request.method == "POST":
-        question = get_object_or_404(Question, pk=question_pk)
-        question.delete()
-        return redirect(reverse('recruiting:read_admin_resume',  kwargs={
+    question = get_object_or_404(Question, pk=question_pk)
+    question.delete()
+    return redirect(reverse('recruiting:read_admin_resume',  kwargs={
             'club_pk': question.admin_resume.club.pk,
             'resume_pk': question.admin_resume.pk,
             }))
-    else:
-        return HttpResponse(status=400)
-
 
 
 @login_required
@@ -119,11 +115,11 @@ def read_applicant_resume_for_admin(request, club_pk, resume_pk):
 @login_required
 def admin_resume_list_for_applicant(request, club_pk):
     club = get_object_or_404(Club, pk=club_pk)
-    resume_form_list = AdminResume.objects.filter(club=club)
+    admin_resume_list = AdminResume.objects.filter(club=club)
     is_member = request.user.member_set.filter(club__pk=club_pk).exists()
     ctx ={
         'club': club,
-        'resume_form_list': resume_form_list,
+        'admin_resume_list': admin_resume_list,
         'is_member': is_member,
     }
     return render(request, 'recruiting/admin_resume_list_for_applicant.html', ctx)
@@ -155,26 +151,29 @@ def create_applicant_resume(request, club_pk, resume_pk):
     long_answer_formset = answer_formset_factory(long_question_list, data=request.POST or None)
 
     if request.method == 'POST' and applicant_resume_form.is_valid():
-        resume = applicant_resume_form.save(commit=False)
-        resume.admin_resume = admin_resume
-        resume.applicant = request.user
-        resume.save()
+        if request.user.applicantresume_set.filter(admin_resume=admin_resume).exists():
+            return HttpResponse(status=404)
+        else:
+            resume = applicant_resume_form.save(commit=False)
+            resume.admin_resume = admin_resume
+            resume.applicant = request.user
+            resume.save()
 
-        for short_answer_form in short_answer_formset:
-            short_answer = short_answer_form.save(commit=False)
-            short_answer.applicant_resume = resume
-            short_answer.question = short_answer_form.question
-            short_answer.save()
-        for long_answer_form in long_answer_formset:
-            long_answer = long_answer_form.save(commit=False)
-            long_answer.applicant_resume = resume
-            long_answer.question = long_answer_form.question
-            long_answer.save()
+            for short_answer_form in short_answer_formset:
+                short_answer = short_answer_form.save(commit=False)
+                short_answer.applicant_resume = resume
+                short_answer.question = short_answer_form.question
+                short_answer.save()
+            for long_answer_form in long_answer_formset:
+                long_answer = long_answer_form.save(commit=False)
+                long_answer.applicant_resume = resume
+                long_answer.question = long_answer_form.question
+                long_answer.save()
 
-        return redirect(reverse('recruiting:read_applicant_resume_for_applicant', kwargs={
-            'club_pk': club.pk,
-            'resume_pk': resume.pk,
-        }))
+            return redirect(reverse('recruiting:read_applicant_resume_for_applicant', kwargs={
+                'club_pk': club.pk,
+                'resume_pk': resume.pk,
+            }))
     ctx = {
         'club': club,
         'resume': admin_resume,
@@ -201,9 +200,20 @@ def accept_applicant(request, resume_pk):
     form = AcceptForm(request.POST or None, instance=applicant_resume)
     if request.method == "POST" and form.is_valid():
         form.save()
-        return redirect(reverse('recruiting:read_applicant_resume_for_admin'), kwargs={
+        return redirect(reverse('recruiting:read_applicant_resume_list', kwargs={
             'club_pk': applicant_resume.admin_resume.club.pk,
-            'resume_pk': applicant_resume.pk,
-        })
+            'resume_pk': applicant_resume.admin_resume.pk,
+        }))
     else:
         return HttpResponse(status=405)
+
+
+def delete_applicant_resume(request, resume_pk):
+    if request.method == "POST":
+        applicant_resume = get_object_or_404(ApplicantResume, pk=resume_pk)
+        applicant_resume.delete()
+        return redirect(reverse('recruiting:admin_resume_list_for_applicant', kwargs={
+            'club_pk': applicant_resume.admin_resume.club.pk,
+        }))
+    else:
+        return HttpResponse(status=400)

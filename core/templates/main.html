@@ -35,7 +35,8 @@
     <button class="btn" id="search-btn" type='submit'>동아리 찾기</button>
 </form>
 {% if search_result %}
-{% for club in search_result %}
+
+    {% for club in search_result %}
 <ul>
     <li>
         {% if club.is_member %}

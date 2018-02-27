@@ -3,8 +3,9 @@
 {% block admin_content %}
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>
-    지원서 별 지원자 관리 > {{ admin_resume.title }}</p>
+    리크루팅 > 지원자 관리 : {{ admin_resume.title }}</p>
 
+{% for resume in applicant_resume_list %}
 <table>
     <tr>
         <th>작성자</th>
@@ -12,7 +13,6 @@
         <th>최근 수정 일시</th>
         <th>합격 여부</th>
     </tr>
-    {% for resume in applicant_resume_list %}
     <tr>
         <td><a href="{% url 'recruiting:read_applicant_resume_for_admin' club.pk resume.pk %}">
             {{ resume.applicant }}</a></td>
@@ -26,8 +26,8 @@
             {% endif %}
         </td>
     </tr>
-    {% empty %}
-        <p class="collection-item">아직 접수된 양식이 없습니다.</p>
-    {% endfor %}
 </table>
+{% empty %}
+    <p class="collection-item">아직 접수된 지원자가 없습니다.</p>
+{% endfor %}
 {% endblock %}
