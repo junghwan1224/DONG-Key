@@ -3,7 +3,7 @@
 {% block admin_content %}
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>
-    지원서 별 지원자 관리 > {{ resume.admin_resume.title }}</p>
+    리크루팅 > 지원자 관리 : {{ resume.admin_resume.title }} : {{ resume.applicant }}</p>
 
 <div class="resume" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
     <span id="resume-title" style="display: block; text-align: center; ">
@@ -73,5 +73,5 @@
         <span style="display:inline-block; margin-right: 20px;">{% csrf_token %}{{ accept_form.as_p }}</span>
         <button style="display:inline-block;" class="btn" type="submit">합격 결정</button>
     </form>
-
+</div>
 {% endblock %}

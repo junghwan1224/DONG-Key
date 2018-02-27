@@ -66,7 +66,7 @@ def admit(request, pk, club):
     # admit 버튼 클릭 시 해당 계정을 ApplyList에서 지운다.
     # Member에 추가한다.
     # 권한은 0->1로
-    apply_user = ApplyList.objects.get(user__pk=pk, club__name=club)
+    apply_user = ApplyList.objects.get(user__pk=pk, club__pk=club)
     if request.method == 'POST':
         Member.objects.create(
                 club=apply_user.club,
@@ -74,9 +74,47 @@ def admit(request, pk, club):
                 is_admin=False,
             )
         apply_user.delete()
-        return redirect(reverse('club:read_apply_list', kwargs={'club': club}))
-    else:
-        return HttpResponse(status=404)
+        return redirect(reverse('club:manage_member', kwargs={'club_pk': club}))
+
+    return HttpResponse(status=404)
+
+
+@login_required
+def update_is_admin(request, club_pk, user_pk):
+    club = Club.objects.get(pk=club_pk)
+    user = club.member_set.get(user_id=user_pk)
+    if request.method == 'POST':
+        user.is_admin = True
+        user.save()
+        return redirect(reverse('club:manage_member', kwargs={'club_pk': club_pk}))
+
+    return HttpResponse(status=404)
+
+
+@login_required
+def exit_club(request, club_pk, user_pk):
+    club = Club.objects.get(pk=club_pk)
+    user = club.member_set.get(user_id=user_pk)
+    if request.method == 'POST':
+        member = Member.objects.get(user=user.user)
+        member.delete()
+        return redirect('core:main_page')
+
+    return HttpResponse(status=404)
+
+
+@login_required
+def manage_member(request, club_pk):
+    club = Club.objects.get(pk=club_pk)
+    all_member = club.member_set.all()
+    applicant_list = club.applylist_set.all()
+    ctx = {
+        'club': club,
+        'all_member': all_member,
+        'applicant_list': applicant_list,
+    }
+    return render(request, 'manage_member.html', ctx)
+
 
 def read_apply_list(request, club):
     club = get_object_or_404(Club, name=club)
@@ -99,8 +137,9 @@ def create_club_rule(request, club):
         form = club_rule_form.save(commit=False)
         form.club = Club.objects.get(name=club)
         form.save()
-        return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club.name,}))
-    return render(request, 'club/club_rule.html', {'club_rule_form': club_rule_form, 'club':club})
+
+        return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club.name}))
+    return render(request, 'club/club_rule.html', {'club_rule_form': club_rule_form, 'club': club})
 
 
 def read_admin_club_rule(request, club):
@@ -112,8 +151,7 @@ def read_admin_club_rule(request, club):
     }
     return render(request, 'club/read_admin_club_rule.html', ctx)
 
-
-def read_non_admin_club_rule(request,club):
+def read_non_admin_club_rule(request, club):
     club = Club.objects.get(name=club)
     club_rule = ClubRule.objects.filter(club=club)
     ctx = {
@@ -131,6 +169,7 @@ def update_club_rule(request, club, rule_pk):
     if request.method == 'POST' and form.is_valid():
         form.save()
         return redirect(reverse('club:read_admin_club', kwargs={'club': club}))
+
     return render(request, 'club/club_rule.html', {'club_rule_form': form, 'club': club})
 
 
@@ -140,5 +179,3 @@ def delete_club_rule(request, club, rule_pk):
     club_rule = ClubRule.objects.get(club__name=club, pk=rule_pk)
     club_rule.delete()
     return redirect(reverse('club:read_admin_club_rule', kwargs={'club': club}))
-
-

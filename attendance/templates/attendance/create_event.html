@@ -2,11 +2,11 @@
 
 {% block admin_content %}
 <p class="menu-title-text">
-    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>출결 관리 > 이벤트 만들기</p>
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>출결 관리 > 출석 행사 생성</p>
 <form method="POST">
     {% csrf_token %}
     {{ event_form.as_p }}
-    <button type="submit" class="btn">만들기</button>
+    <button type="submit" class="btn">행사 생성</button>
 </form>
 <script>
 $(document).ready(function() {
