@@ -46,3 +46,17 @@ class Comment(models.Model):
         Article,
         on_delete=models.CASCADE,
     )
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        null=True,
+    )
+
+    liker_set = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='liked_comment_set',
+    )
+
+    content = models.CharField(max_length=100, verbose_name='내용')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -46,7 +46,7 @@
             {% if club.is_applied %}
                 <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
                 <p>{{ club.description }}</p>
-                <p>이미 가입된 동아리입니다.</p>
+                <p>이미 신청된 동아리입니다.</p>
             {% else %}
                 <h3><a href="{% url 'club:read_non_admin_club' club.name %}">{{ club.name }}</a></h3>
                 <p>{{ club.description }}</p>
@@ -55,10 +55,6 @@
                   <button type='submit'>apply</button>
                 </form>
             {% endif %}
-
-            {% else %}
-                <h3><a href="{% url 'club:read_non_admin_club' club.pk %}">{{ club.name }}</a></h3>
-                <p>{{ club.description }}</p>
 
         {% endif %}
     </li>

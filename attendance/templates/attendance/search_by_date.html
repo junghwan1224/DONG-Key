@@ -1,0 +1,22 @@
+{% if event_list %}
+<div class="event_list_area">
+  <table>
+      <thead>
+        <tr>
+          <th>행사 이름</th>
+          <th>행사 일자</th>
+          <th>장소</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for event in event_list %}
+        <tr>
+          <td><a href="{% url 'attendance:read_event' event.pk %}">{{ event.title }}</a></td>
+          <td>{{ event.event_at|date:"Y.m.d" }}</td>
+          <td>Nowhere</td>
+        </tr>
+      {% endfor %}
+      </tbody>
+  </table>
+  {% endif %}
+</div>
