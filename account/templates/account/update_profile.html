@@ -1,9 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_donkeyandkey.png"/>
+    {{ request.user.username }}의 프로필</p>
+
 <form method="POST">
   {% csrf_token %}
   {{ profile_form.as_p }}
-  <button type='submit'>save</button>
+  <button class="btn" type='submit'>프로필 저장</button>
 </form>
 {% endblock %}

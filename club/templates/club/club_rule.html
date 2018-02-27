@@ -4,6 +4,6 @@
 <form method='POST'>
   {% csrf_token %}
   {{ club_rule_form.as_p }}
-  <button type='submit'>save</button>
+  <button class="btn" type='submit'>회칙 만들기</button>
 </form>
 {% endblock %}

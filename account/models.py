@@ -11,9 +11,9 @@ class Profile(models.Model):
         )
     school = models.CharField(
             max_length=20,
-            verbose_name='member school',
+            verbose_name='소속 대학',
         )
     phone_number = models.CharField(
             max_length=20,
-            verbose_name='phone number',
+            verbose_name='휴대전화 번호',
         )

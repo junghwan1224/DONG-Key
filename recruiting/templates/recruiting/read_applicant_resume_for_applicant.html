@@ -4,7 +4,7 @@
 
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_donkey.png"/>
-    내 지원서 보기 >{{ club.name }}>{{ resume.admin_resume.title }}</p>
+    지원하기 > 내 지원서 보기: {{ resume.admin_resume.title }}</p>
 
 <div class="resume" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
     <span id="resume-title" style="display: block; text-align: center; ">
@@ -63,4 +63,21 @@
     <h6 style="text-align:right; margin-top: 50px;">**기본 인적사항은 본인의 기본 정보 및 프로필에 따라 자동으로 기입됩니다.</h6>
 </div>
 
+<div>
+    <a style="display: inline-block;" class="btn"
+       href="{% url 'recruiting:admin_resume_list_for_applicant' club.pk %}">
+        지원서 목록으로</a>
+    <form method="POST" style="display: inline-block; float: right; margin-left: 20px;"
+          action="{% url 'recruiting:delete_applicant_resume' resume.pk %}">
+        {% csrf_token %}
+        <button style="display:inline-block;" id="applicant_resume_delete_btn" class="btn" type="submit">삭제</button>
+    </form>
+</div>
+<script>
+    $('#applicant_resume_delete_btn').click(function(e) {
+        if (!confirm('지원서를 삭제하시겠습니까?')) {
+            return false;
+        }
+    });
+</script>
 {% endblock %}

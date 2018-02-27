@@ -11,14 +11,24 @@
 <a href="{% url 'club:read_non_admin_club' club.name %}" class="btn">홈으로 돌아가기</a>
 
 {% else %}
-<h6 class="menu-help-text">** 지원서 양식을 선택하면 해당 양식의 지원서를 작성할 수 있습니다.</h6>
+<h6 class="menu-help-text">** 지원서 양식을 선택하면 해당 양식의 지원서를 작성할 수 있습니다.
+이미 지원서를 제출 했다면, 본인이 작성한 지원서를 볼 수 있습니다.</h6>
+
 <div class="collection">
-{% for resume_form in resume_form_list %}
+{% for admin_resume in admin_resume_list %}
 <div class="collection-item">
     <h2>
-        <a href="{% url 'recruiting:create_applicant_resume' club.pk resume_form.pk %}">{{ resume_form.title }}</a><br />
+    {% for applicant_resume in admin_resume.applicantresume_set.all %}
+        {% if request.user == applicant_resume.applicant %}
+            <a href="{% url 'recruiting:read_applicant_resume_for_applicant' club.pk applicant_resume.pk %}">
+                {{ admin_resume.title }}</a><br />
+        {% endif %}
+    {% empty %}
+        <a href="{% url 'recruiting:create_applicant_resume' club.pk admin_resume.pk %}">
+            {{ admin_resume.title }}</a><br />
+    {% endfor %}
     </h2>
-    </div>
+</div>
 {% empty %}
     <p class="collection-item">작성 가능한 지원서 양식이 없습니다.</p>
 {% endfor %}
