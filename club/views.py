@@ -151,6 +151,7 @@ def read_admin_club_rule(request, club):
     }
     return render(request, 'club/read_admin_club_rule.html', ctx)
 
+
 def read_non_admin_club_rule(request, club):
     club = Club.objects.get(name=club)
     club_rule = ClubRule.objects.filter(club=club)
