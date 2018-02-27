@@ -29,7 +29,7 @@ def article_list(request, club_pk, ctg_pk=None):
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club_pk).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
     else:
-        article_list = Article.objects.filter(club=club_pk).order_by('-updated_at')
+        article_list = Article.objects.filter(club=club_pk).order_by('category__pk', '-updated_at')
         ctg = None
     ctx = {
             'article_list': article_list,
@@ -43,8 +43,9 @@ def article_list(request, club_pk, ctg_pk=None):
 
 @login_required
 def article_create(request, club_pk):
-    form = ArticleForm(request.POST or None)
     club = get_object_or_404(Club, pk=club_pk)
+    member = club.member_set.get(user=request.user)
+    form = ArticleForm(member, request.POST or None)
     if request.method == "POST" and form.is_valid():
         article = form.save(commit=False)
         article.club = club
