@@ -11,7 +11,7 @@
         <ul>
             {% if member.is_admin is True %}
             <li>
-                <p for="test1">{{ member.user.last_name }}{{ member.user.first_name }} (관리자)</p>
+                <p for="test1">{{ member.user.last_name }} {{ member.user.first_name }} (관리자)</p>
             </li>
             {% else %}
             <li>
