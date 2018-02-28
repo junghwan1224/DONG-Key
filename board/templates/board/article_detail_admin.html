@@ -17,10 +17,10 @@
         <a href="{% url 'board:article_like' article.pk %}" class="btn">추천 {{ article.liker_set.count }}</a>
     </div>
     <br />
-    <a href="{% url 'club:read_non_admin_club' article.club.name %}"class="btn">글 목록</a>
+    <a href="{% url 'club:read_admin_club' article.club.name %}"class="btn">글 목록</a>
     <div style="float: right;">
-        <a class="btn" href="{% url 'board:article_update' article.pk %}">수정</a>
-        <form method="POST" style="display: inline-block;" action="{% url 'board:article_delete' article.pk %}">
+        <a class="btn" href="{% url 'board:article_update_admin' article.pk %}">수정</a>
+        <form method="POST" style="display: inline-block;" action="{% url 'board:article_delete_admin' article.pk %}">
         {% csrf_token %}
             <button type="submit" class="btn">삭제</button>
         </form>
@@ -31,7 +31,7 @@
         <form id="comment_form" method="POST">
             {% csrf_token %}
             {{ form }}
-            <button type="submit" class="btn" action="{% url 'board:article_detail' article.pk %}">작성</button>
+            <button type="submit" class="btn" action="{% url 'board:article_detail_admin' article.pk %}">작성</button>
         </form>
     </div>
     <br/>

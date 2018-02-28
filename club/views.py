@@ -36,6 +36,7 @@ def create_club(request):
 @login_required
 def read_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
+    member = club.member_set.get(user=request.user)
     if ctg_pk is not None:
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
@@ -48,6 +49,7 @@ def read_admin_club(request, club, ctg_pk=None):
         'category_list': Category.objects.exclude(name='공지사항'),
         'ctg_selected': ctg,
         'club': club,
+        'member': member,
     }
     return render(request, 'club/admin_club.html', ctx)
 
@@ -55,6 +57,7 @@ def read_admin_club(request, club, ctg_pk=None):
 @login_required
 def read_non_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
+    member = club.member_set.get(user=request.user)
     if ctg_pk is not None:
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
@@ -67,6 +70,7 @@ def read_non_admin_club(request, club, ctg_pk=None):
         'category_list': Category.objects.exclude(name='공지사항'),
         'ctg_selected': ctg,
         'club': club,
+        'member': member,
     }
     return render(request, 'club/as_member_club.html', ctx)
 
