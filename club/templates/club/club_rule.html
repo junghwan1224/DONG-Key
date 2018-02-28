@@ -1,6 +1,11 @@
 {% extends 'admin_base.html' %}
 
 {% block admin_content %}
+<p class="menu-title-text">
+    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>
+    회칙 관리</p>
+<div class="divider"></div>
+
 <form method='POST'>
   {% csrf_token %}
   {{ club_rule_form.as_p }}

@@ -19,6 +19,18 @@ def event_list(request, pk):
     return render(request, 'attendance/event_list.html', ctx)
 
 
+def non_admin_event_list(request, pk):
+    club = get_object_or_404(Club, pk=pk)
+    form = DateInputForm()
+    event_list = club.event_set.all()
+    ctx = {
+            'club': club,
+            'dateinput_form': form,
+            'event_list': event_list[:15],
+    }
+    return render(request, 'attendance/non_admin_event_list.html', ctx)
+
+
 def create_event(request, pk):
     club = get_object_or_404(Club, pk=pk)
     if request.method == "POST":

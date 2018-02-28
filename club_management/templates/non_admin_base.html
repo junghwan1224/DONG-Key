@@ -20,11 +20,13 @@
 
         <ul id='dropdown1' class='dropdown-content'>
             <li><a class="base_menu_item" href="{% url 'club:read_non_admin_club' club.name %}">홈</a></li>
-            <li><a href="#" class="base_menu_item">기본정보</a></li>
             <li><a href="{% url 'club:read_non_admin_club_rule' club.name %}" class="base_menu_item">회칙</a></li>
-            <li><a href="#" class="base_menu_item">회원명부</a></li>
-            <li><a href="#" class="base_menu_item">출결 확인</a></li>
-            <li><a href="#" class="base_menu_item">회계 정보</a></li>
+            <li><a href="{% url 'club:member_list_for_non_admin' club.pk %}" class="base_menu_item">
+                회원명부</a></li>
+            <li><a href="{% url 'attendance:non_admin_event_list' club.pk %}" class="base_menu_item">
+                출결 확인</a></li>
+            <li><a href="{% url 'finance:non_admin_club_accounting' club.pk %}" class="base_menu_item">
+                회계 정보</a></li>
             <li><a href="{% url 'recruiting:admin_resume_list_for_applicant' club.pk %}" class="base_menu_item">
                 지원하기</a></li>
         </ul>

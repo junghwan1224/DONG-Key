@@ -32,8 +32,23 @@ def club_accounting(request, pk):
             'expenditure_form': expenditure_form,
             'dateinput_form': dateinput_form,
     }
-
     return render(request, 'finance/club_accounting.html', ctx)
+
+
+def non_admin_club_accounting(request, pk):
+    club = Club.objects.get(pk=pk)
+    dateinput_form = DateInputForm()
+    income_all = club.accounting.income_set.all().order_by('income_at')
+    expd_all = club.accounting.expenditure_set.all().order_by('expd_at')
+
+    ctx = {
+            'club': club,
+            'account_sum': club.accounting.account_sum,
+            'income_part': income_all[:20],
+            'expd_part': expd_all[:20],
+            'dateinput_form': dateinput_form,
+    }
+    return render(request, 'finance/non_admin_club_accounting.html', ctx)
 
 
 def search_by_date(request, pk):

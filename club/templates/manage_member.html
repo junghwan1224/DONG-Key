@@ -3,15 +3,16 @@
 {% block admin_content %}
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>회원 관리</p>
+<div class="divider"></div>
 
-<div id='member_wrapper'>
+<div id='member_wrapper' style="margin-top: 20px;">
     <div id='member_area'>
         <h5>회원 명단</h5><br>
         {% for member in all_member %}
         <ul>
             {% if member.is_admin is True %}
             <li>
-                <p for="test1">{{ member.user.last_name }} {{ member.user.first_name }} (관리자)</p>
+                <p>{{ member.user.last_name }} {{ member.user.first_name }} (관리자)</p>
             </li>
             {% else %}
             <li>

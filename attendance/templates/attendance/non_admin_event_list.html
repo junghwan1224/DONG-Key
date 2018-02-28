@@ -1,8 +1,8 @@
-{% extends 'admin_base.html' %}
+{% extends 'non_admin_base.html' %}
 
-{% block admin_content %}
+{% block non_admin_content %}
 <p class="menu-title-text">
-    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>출결 관리</p>
+    <img class="menu-key-icon" src="/static/img/orangered_donkey.png"/>출결 확인</p>
 <div class="divider"></div>
 
 <div class="date_input">
@@ -17,7 +17,6 @@
 </div>
 <br />
 <br />
-<a href="{% url 'attendance:create_event' club.pk %}" class="btn">이벤트 만들기(출결)</a>
 <script>
     $('.date_input').submit(function(e) {
         e.preventDefault();

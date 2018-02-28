@@ -6,6 +6,7 @@
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>
     리크루팅 > 지원서관리 : {{ admin_resume.title }}</p>
+<div class="divider"></div>
 
 <div class="resume-sample" style="margin: 20px 0 30px; border: 1px solid darkgray; padding: 15px; width:100%;">
     <span id="resume-title" style="display: block; text-align: center; ">
@@ -60,7 +61,7 @@
     <form id="question_form" method="POST">
         {% csrf_token %}
         {{ question_form.as_p }}
-        <button style="display:block;" type="submit" class="waves-effect waves-light btn">항목 추가하기</button>
+        <button style="display:block;" type="submit" class="btn">항목 추가하기</button>
     </form>
     <script>
         $('#question_form').submit(function(e) {

@@ -36,7 +36,6 @@ def create_club(request):
 @login_required
 def read_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
-    member = club.member_set.get(user=request.user)
     if ctg_pk is not None:
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
@@ -49,7 +48,6 @@ def read_admin_club(request, club, ctg_pk=None):
         'category_list': Category.objects.exclude(name='공지사항'),
         'ctg_selected': ctg,
         'club': club,
-        'member': member,
     }
     return render(request, 'club/admin_club.html', ctx)
 
@@ -57,7 +55,6 @@ def read_admin_club(request, club, ctg_pk=None):
 @login_required
 def read_non_admin_club(request, club, ctg_pk=None):
     club = Club.objects.get(name=club)
-    member = club.member_set.get(user=request.user)
     if ctg_pk is not None:
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
@@ -70,9 +67,22 @@ def read_non_admin_club(request, club, ctg_pk=None):
         'category_list': Category.objects.exclude(name='공지사항'),
         'ctg_selected': ctg,
         'club': club,
-        'member': member,
     }
     return render(request, 'club/as_member_club.html', ctx)
+
+
+@login_required
+def update_club(request, club_pk):
+    club = Club.objects.get(pk=club_pk)
+    club_form = ClubForm(request.POST or None, instance=club)
+    if request.method == 'POST' and club_form.is_valid():
+        club = club_form.save()
+        return redirect(reverse('club:read_admin_club', kwargs={'club': club.name, }))
+    ctx = {
+        'club': club,
+        'club_form': club_form,
+    }
+    return render(request, 'club/update_club.html', ctx)
 
 
 @login_required
@@ -142,6 +152,19 @@ def manage_member(request, club_pk):
         'applicant_list': applicant_list,
     }
     return render(request, 'manage_member.html', ctx)
+
+
+@login_required
+def member_list_for_non_admin(request, club_pk):
+    club = Club.objects.get(pk=club_pk)
+    all_member = club.member_set.all()
+    applicant_list = club.applylist_set.all()
+    ctx = {
+        'club': club,
+        'all_member': all_member,
+        'applicant_list': applicant_list,
+    }
+    return render(request, 'club/member_list_for_non_admin.html', ctx)
 
 
 def read_apply_list(request, club):

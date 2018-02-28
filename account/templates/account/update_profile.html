@@ -4,6 +4,7 @@
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_donkeyandkey.png"/>
     {{ request.user.username }}의 프로필</p>
+<div class="divider"></div>
 
 <form method="POST">
   {% csrf_token %}

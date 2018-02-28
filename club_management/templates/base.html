@@ -47,8 +47,8 @@
                         </div>
                     </li>
                     <li><a href="{% url 'account:read_profile' request.user.pk %}">내 프로필 보기</a></li>
-                    <li><a href="{% url 'account:logout' %}">로그아웃</a></li>
-                    <li style="background-color:lightgray;">
+                    <li><a href="{% url 'account:logout' %}" style="color:orangered; font-weight: bolder;">로그아웃</a></li>
+                    <li style="background-color: darkorange;">
                         <strong>내가 관리하는 동아리</strong>
                     </li>
                     <li>
@@ -64,7 +64,7 @@
                             <li><a href="{% url 'club:create_club' %}"><i class="material-icons">add</i>동아리 만들기</a></li>
                         </ul>
                     </li>
-                    <li style="background-color:lightgray;">
+                    <li style="background-color: darkorange;">
                         <strong>내가 참여하는 동아리</strong>
                     </li>
                     <li>

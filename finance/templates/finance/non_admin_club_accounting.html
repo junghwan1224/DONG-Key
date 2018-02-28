@@ -1,28 +1,9 @@
-{% extends 'admin_base.html' %}
+{% extends 'non_admin_base.html' %}
 
-{% block admin_content %}
+{% block non_admin_content %}
 {% load money %}
 <p class="menu-title-text">
-    <img class="menu-key-icon" src="/static/img/orangered_key.png"/>회계 관리</p>
-<div class="divider"></div>
-
-<div class="row firsts">
-    <div class="col s12 m5" id="income_form">
-        <h3>{{ club.club_name }}</h3>
-        <form method="POST" id="acc_form">
-            {% csrf_token %}
-            {{ income_form.as_p }}
-            <button type="submit">입력</button>
-        </form>
-    </div>
-    <div class="col s12 m5 offset-m2" id="expd_form">
-        <form method="POST" id="acc_form" enctype="multipart/form-data">
-            {% csrf_token %}
-            {{ expenditure_form.as_p }}
-            <button type="submit">입력</button>
-        </form>
-        </div>
-</div>
+    <img class="menu-key-icon" src="/static/img/orangered_donkey.png"/>회계 정보</p>
 
 <div class="divider"></div>
 
@@ -30,13 +11,13 @@
     <form type="GET" action="{% url 'finance:search_by_date' club.pk %}" class="date_input">
         <div id="year">{{ dateinput_form.year }}</div>
         <div id="month">{{ dateinput_form.month }}</div>
-        <button id="date_btn" type="submit" class="btn" style="margin-left: 10px;">검색</button>
+        <button id="date_btn" type="submit" class="btn" style="margin-left: 10px;">검색<button>
     </form>
 </div>
 <div class="search_by_date">
     <li>회계 총 잔액: {{ club.accounting.account_sum|won }}</li>
     <li>최근 20개 항목</li>
-    {% include 'finance/search_by_date.html' %}
+    {% include 'finance/non_admin_search_by_date.html' %}
 </div>
 
 <script>

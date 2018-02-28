@@ -3,6 +3,8 @@
 {% block admin_content %}
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>출결 관리 > 출석 행사 생성</p>
+<div class="divider"></div>
+
 <form method="POST">
     {% csrf_token %}
     {{ event_form.as_p }}
@@ -25,3 +27,4 @@ $(function() {
 });
 </script>
 {% endblock %}
+

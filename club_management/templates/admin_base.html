@@ -17,7 +17,7 @@
 
         <ul id='dropdown1' class='dropdown-content'>
             <li><a href="{% url 'club:read_admin_club' club.name %}" class="base_menu_item">홈</a></li>
-            <li><a href="{% url 'club:read_apply_list' club.name  %}" class="base_menu_item">회원 승인</a></li>
+            <li><a href="{% url 'club:update_club' club.pk %}" class="base_menu_item">기본 정보</a></li>
             <li><a href="{% url 'club:read_admin_club_rule' club.name %}" class="base_menu_item">회칙 관리</a></li>
             <li><a href="{% url 'club:manage_member' club.pk %}" class="base_menu_item">회원 관리</a></li>
             <li><a href="{% url 'attendance:event_list' club.pk %}" class="base_menu_item">출결 관리</a></li>
@@ -32,3 +32,4 @@
     {% block admin_content %}{% endblock %}
 </div>
 {% endblock %}
+
