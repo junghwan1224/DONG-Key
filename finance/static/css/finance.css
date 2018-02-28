@@ -25,14 +25,16 @@ div#accounting {
 }
 
 div#income_sum {
-    margin-top: 30px;
     display: inline-block;
+    margin-top: 20px;
+    width: 100%;
     border: 1px solid gray;
     border-radius: 5px;
 }
 div#expd_sum {
-    margin-top: 30px;
     display: inline-block;
+    margin-top: 15px;
+    width: 100%;
     border: 1px solid gray;
     border-radius: 5px;
 }
@@ -43,7 +45,15 @@ div#expd_sum {
 table {
     padding: 0 10px;
 }
-
+div.date_input {
+    margin-top: 20px;
+}
+div#income_form{
+    margin-bottom: 20px;
+}
+div#form_area{
+    margin-top: 30px;
+}
 
 #income_tr th#first{
     width: 63%;

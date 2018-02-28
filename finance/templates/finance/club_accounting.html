@@ -5,8 +5,8 @@
 <p class="menu-title-text">
     <img class="menu-key-icon" src="/static/img/orangered_key.png"/>회계 관리</p>
 
-<div class="row 1st">
-    <div class="col s12 m5" id="income_form">
+<div class="row 1st" id="form_area">
+    <div class="col s10 m5 offset-s1" id="income_form">
         <h3>{{ club.club_name }}</h3>
         <form method="POST" id="acc_form">
             {% csrf_token %}
@@ -14,7 +14,7 @@
             <button type="submit">입력</button>
         </form>
     </div>
-    <div class="col s12 m5 offset-m2" id="expd_form">
+    <div class="col s10 m5 offset-s1 offset-m2" id="expd_form">
         <form method="POST" id="acc_form" enctype="multipart/form-data">
             {% csrf_token %}
             {{ expenditure_form.as_p }}
