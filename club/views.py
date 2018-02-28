@@ -41,7 +41,7 @@ def read_admin_club(request, club, ctg_pk=None):
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
     else:
-        article_list = Article.objects.filter(club=club).order_by('category__pk', '-updated_at')
+        article_list = Article.objects.filter(club=club).order_by('-category__pk', '-updated_at')
         ctg = None
     ctx = {
         'article_list': article_list,
@@ -62,7 +62,7 @@ def read_non_admin_club(request, club, ctg_pk=None):
         article_list = Article.objects.filter(category__pk=ctg_pk).filter(club=club).order_by('-updated_at')
         ctg = get_object_or_404(Category, pk=ctg_pk)
     else:
-        article_list = Article.objects.filter(club=club).order_by('category__pk', '-updated_at')
+        article_list = Article.objects.filter(club=club).order_by('-category__pk', '-updated_at')
         ctg = None
     ctx = {
         'article_list': article_list,
