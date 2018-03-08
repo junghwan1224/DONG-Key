@@ -21,7 +21,6 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*u#_fk6dd=jhf(%+u9mlmhrxa8_9(dfz12vi3r4sq=l4li9_4+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -128,7 +127,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-WSGI_APPLICATION = 'DONGKey.wsgi.application'
+WSGI_APPLICATION = 'config.wsgi.base.application'
 
 
 # Static files (CSS, JavaScript, Images)
@@ -145,3 +144,16 @@ STATICFILES_DIRS = [
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+#====== 배포 보안 관련 =============
+
+ROOT_DIR = os.path.dirname(BASE_DIR)
+
+CONFIG_SECRET_DIR = os.path.join(ROOT_DIR, '.config_secret')
+CONFIG_SECRET_COMMON_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_common.json')
+CONFIG_SECRET_DEBUG_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_debug.json')
+CONFIG_SECRET_DEPLOY_FILE = os.path.join(CONFIG_SECRET_DIR, 'settings_deploy.json')
+
+config_secret_common = json.loads(open(CONFIG_SECRET_COMMON_FILE).read())
+
+SECRET_KEY = config_secret_common['django']['secret_key']
