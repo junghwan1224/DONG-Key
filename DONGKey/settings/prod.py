@@ -1,6 +1,6 @@
 from .common import *
 
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = ['13.125.156.59']
 
 DATABASES = {
