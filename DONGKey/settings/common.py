@@ -26,7 +26,7 @@ SECRET_KEY = '*u#_fk6dd=jhf(%+u9mlmhrxa8_9(dfz12vi3r4sq=l4li9_4+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['13.125.156.59']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -59,12 +59,12 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'club_management.urls'
+ROOT_URLCONF = 'DONGKey.urls'
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'club_management', 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'DONGKey', 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -77,7 +77,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'club_management.wsgi.application'
 
 
 # Database
@@ -129,18 +128,18 @@ USE_L10N = True
 
 USE_TZ = True
 
+WSGI_APPLICATION = 'DONGKey.wsgi.application'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static/')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'club', 'static'),
-    os.path.join(BASE_DIR, 'member', 'static'),
-    os.path.join(BASE_DIR, 'account', 'static'),
-    os.path.join(BASE_DIR, 'club_management', 'static'),
+    os.path.join(BASE_DIR, 'DONGKey', 'static'),
     os.path.join(BASE_DIR, 'recruiting', 'static'),
 ]  # 굳이 안써도 된다. 이걸 쓰려면, 다른 위치에 스태틱 폴더를 둬서 관리하고 싶을 때 사용
 
