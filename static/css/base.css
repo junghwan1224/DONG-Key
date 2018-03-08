@@ -12,6 +12,10 @@ main {
     background-color: orangered;
 }
 
+.menu-help-text{
+    margin: 10px 0;
+}
+
 .btn, .btn:hover {
    background-color: orangered;
 }
