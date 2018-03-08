@@ -127,8 +127,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-WSGI_APPLICATION = 'config.wsgi.base.application'
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
