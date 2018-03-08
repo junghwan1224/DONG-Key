@@ -109,10 +109,10 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LOGIN_REDIRECT_URL = '/core/main/'
+LOGIN_REDIRECT_URL = ''
 LOGIN_URL = '/account/login/'
 
-LOGOUT_REDIRECT_URL = '/core/main/'
+LOGOUT_REDIRECT_URL = ''
 
 
 # Internationalization
