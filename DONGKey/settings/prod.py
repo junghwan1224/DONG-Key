@@ -1,7 +1,7 @@
 from .common import *
 
 DEBUG = False
-ALLOWED_HOSTS = ['13.125.156.59']
+ALLOWED_HOSTS = ['52.79.117.221']
 
 DATABASES = {
     'default': {
